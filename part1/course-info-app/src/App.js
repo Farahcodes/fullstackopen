@@ -7,9 +7,13 @@ const App = () => {
   const part3 = "State of a component";
   const exercises3 = 14;
 
+  const Header = (props) => {
+    return <h1>{props.course}</h1>;
+  };
+
   return (
     <div>
-      <h1>{course}</h1>
+      <Header course={course} />
       <p>
         {part1} {exercises1}
       </p>
