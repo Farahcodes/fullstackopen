@@ -24,12 +24,14 @@ const App = () => {
   const [bad, setBad] = useState(0);
   const [all, setAll] = useState(0);
   const [average, setAverage] = useState(0);
+  const [positive, setPositive] = useState(0);
 
   const handleGoodFeedback = () => {
     const updatedGoodFeedback = good + 1;
     setGood(updatedGoodFeedback);
     setAll(updatedGoodFeedback + neutral + bad);
     setAverage((updatedGoodFeedback + neutral + bad) / 3);
+    setPositive(updatedGoodFeedback / (updatedGoodFeedback + neutral + bad));
   };
 
   const handleNeutralFeedback = () => {
@@ -37,6 +39,7 @@ const App = () => {
     setNeutral(updatedNeutralFeedback);
     setAll(updatedNeutralFeedback + good + bad);
     setAverage((updatedNeutralFeedback + good + bad) / 3);
+    setPositive(good / (updatedNeutralFeedback + good + bad));
   };
 
   const handleBadFeedback = () => {
@@ -44,6 +47,7 @@ const App = () => {
     setBad(updatedBadFeedback);
     setAll(updatedBadFeedback + good + neutral);
     setAverage((updatedBadFeedback + good + neutral) / 3);
+    setPositive(good / (updatedBadFeedback + good + neutral));
   };
 
   return (
@@ -59,6 +63,7 @@ const App = () => {
       <Feedback text={badFeedback} number={bad} />
       <Feedback text={allFeedbacks} number={all} />
       <Feedback text={averageFeedback} number={average} />
+      <Feedback text={positiveFeedback} number={positive * 100 + "%"} />
     </div>
   );
 };
