@@ -38,9 +38,9 @@ const App = () => {
   return (
     <div>
       <h1>Give Feedback</h1>
-      <button onClick={handleGoodFeedback}>good</button>
-      <button onClick={handleNeutralFeedback}>neutral</button>
-      <button onClick={handleBadFeedback}>bad</button>
+      <button onClick={handleGoodFeedback}>{goodFeedback}</button>
+      <button onClick={handleNeutralFeedback}>{neutralFeedback}</button>
+      <button onClick={handleBadFeedback}>{badFeedback}</button>
 
       <h1>Statistics</h1>
       <Feedback text={goodFeedback} number={good} />
