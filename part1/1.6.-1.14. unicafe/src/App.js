@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-const good = "good";
-const neutral = "neutral";
-const bad = "bad";
+const goodFeedback = "good";
+const neutralFeedback = "neutral";
+const badFeedback = "bad";
 
 const Button = (props) => {
   return <button>{props.text}</button>;
@@ -12,9 +12,19 @@ const GiveFeedback = (props) => {
   return (
     <>
       <h1>Give Feedback</h1>
-      <Button text={good} />
-      <Button text={neutral} />
-      <Button text={bad} />
+      <Button text={goodFeedback} />
+      <Button text={neutralFeedback} />
+      <Button text={badFeedback} />
+    </>
+  );
+};
+
+const Feedback = (props) => {
+  return (
+    <>
+      <p>
+        {props.text} {props.number}
+      </p>
     </>
   );
 };
@@ -28,6 +38,10 @@ const App = () => {
   return (
     <div>
       <GiveFeedback />
+      <h1>Statistics</h1>
+      <Feedback text={goodFeedback} number={good} />
+      <Feedback text={neutralFeedback} number={neutral} />
+      <Feedback text={badFeedback} number={bad} />
     </div>
   );
 };
