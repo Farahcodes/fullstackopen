@@ -7,12 +7,28 @@ const allFeedbacks = "all";
 const averageFeedback = "average";
 const positiveFeedback = "positive";
 
-const Feedback = (props) => {
+const StatisticLine = (props) => {
   return (
     <>
       <p>
-        {props.text} {props.number}
+        {props.text} {props.value}
       </p>
+    </>
+  );
+};
+
+const Statistics = (props) => {
+  return (
+    <>
+      <StatisticLine text={goodFeedback} value={props.good} />
+      <StatisticLine text={neutralFeedback} value={props.neutral} />
+      <StatisticLine text={badFeedback} value={props.bad} />
+      <StatisticLine text={allFeedbacks} value={props.all} />
+      <StatisticLine text={averageFeedback} value={props.average} />
+      <StatisticLine
+        text={positiveFeedback}
+        value={props.positive * 100 + "%"}
+      />
     </>
   );
 };
@@ -58,12 +74,14 @@ const App = () => {
       <button onClick={handleBadFeedback}>{badFeedback}</button>
 
       <h1>Statistics</h1>
-      <Feedback text={goodFeedback} number={good} />
-      <Feedback text={neutralFeedback} number={neutral} />
-      <Feedback text={badFeedback} number={bad} />
-      <Feedback text={allFeedbacks} number={all} />
-      <Feedback text={averageFeedback} number={average} />
-      <Feedback text={positiveFeedback} number={positive * 100 + "%"} />
+      <Statistics
+        good={good}
+        bad={bad}
+        neutral={neutral}
+        all={all}
+        average={average}
+        positive={positive}
+      />
     </div>
   );
 };
