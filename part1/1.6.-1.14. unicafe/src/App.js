@@ -9,11 +9,10 @@ const positiveFeedback = "positive";
 
 const StatisticLine = (props) => {
   return (
-    <>
-      <p>
-        {props.text} {props.value}
-      </p>
-    </>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   );
 };
 
@@ -21,30 +20,15 @@ const Statistics = (props) => {
   return (
     <table>
       <tbody>
-        <tr>
-          <td>{goodFeedback}</td>
-          <td>{props.good}</td>
-        </tr>
-        <tr>
-          <td>{neutralFeedback}</td>
-          <td>{props.neutral}</td>
-        </tr>
-        <tr>
-          <td>{badFeedback}</td>
-          <td>{props.bad}</td>
-        </tr>
-        <tr>
-          <td>{allFeedbacks}</td>
-          <td>{props.all}</td>
-        </tr>
-        <tr>
-          <td>{averageFeedback}</td>
-          <td>{props.average}</td>
-        </tr>
-        <tr>
-          <td>{positiveFeedback}</td>
-          <td>{props.positive * 100 + "%"}</td>
-        </tr>
+        <StatisticLine text={goodFeedback} value={props.good} />
+        <StatisticLine text={neutralFeedback} value={props.neutral} />
+        <StatisticLine text={badFeedback} value={props.bad} />
+        <StatisticLine text={allFeedbacks} value={props.all} />
+        <StatisticLine text={averageFeedback} value={props.average} />
+        <StatisticLine
+          text={positiveFeedback}
+          value={props.positive * 100 + "%"}
+        />
       </tbody>
     </table>
   );
