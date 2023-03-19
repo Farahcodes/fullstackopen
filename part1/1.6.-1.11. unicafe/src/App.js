@@ -17,6 +17,9 @@ const StatisticLine = (props) => {
 };
 
 const Statistics = (props) => {
+  if (props.all === 0) {
+    return <p>No Feedback given</p>;
+  }
   return (
     <table>
       <tbody>
