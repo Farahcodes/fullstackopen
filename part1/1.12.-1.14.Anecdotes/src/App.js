@@ -16,7 +16,7 @@ const App = () => {
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
 
   function getRandomNumber() {
-    return Math.floor(Math.random() * 7);
+    return Math.floor(Math.random() * anecdotes.length);
   }
 
   const handleClick = () => {
