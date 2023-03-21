@@ -32,7 +32,7 @@ const App = () => {
       </p>
     );
   };
-  const Content = (props) => {
+  const Content = () => {
     return (
       <ul>
         {course.parts.map((part) => (
@@ -41,11 +41,12 @@ const App = () => {
       </ul>
     );
   };
-  const Total = (props) => {
-    return <p>Number of exercises {props.total}</p>;
+  const Total = () => {
+    const total = course.parts.reduce((sum, part) => sum + part.exercises, 0);
+    return <p> total of {total} exercises</p>;
   };
 
-  const Course = (props) => {
+  const Course = () => {
     return (
       <>
         <Header name={course.name} />
@@ -57,13 +58,7 @@ const App = () => {
   return (
     <div>
       <Course />
-      <Total
-        total={
-          course.parts[0].exercises +
-          course.parts[1].exercises +
-          course.parts[2].exercises
-        }
-      />
+      <Total />
     </div>
   );
 };
