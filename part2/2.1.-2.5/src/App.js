@@ -36,10 +36,13 @@ const App = () => {
     return (
       <ul>
         {course.parts.map((part) => (
-          <Part part={part.name} exercises={part.exercises} />
+          <Part key={part.id} part={part.name} exercises={part.exercises} />
         ))}
       </ul>
     );
+  };
+  const Total = (props) => {
+    return <p>Number of exercises {props.total}</p>;
   };
 
   const Course = (props) => {
@@ -49,10 +52,6 @@ const App = () => {
         <Content />
       </>
     );
-  };
-
-  const Total = (props) => {
-    return <p>Number of exercises {props.total}</p>;
   };
 
   return (
