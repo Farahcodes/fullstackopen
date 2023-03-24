@@ -9,7 +9,16 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    console.log("button clicked", event.target);
+    const personObject = {
+      id: persons.length + 1,
+      name: newName,
+    };
+    setPersons(persons.concat(personObject));
+    setNewName("");
+  };
+  const handleNameChange = (event) => {
+    console.log(event.target.value);
+    setNewName(event.target.value);
   };
 
   return (
@@ -17,7 +26,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} />
+          name: <input value={newName} onChange={handleNameChange} />
         </div>
         <div>
           <button type="submit">add</button>
