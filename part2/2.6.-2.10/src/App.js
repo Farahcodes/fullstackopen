@@ -12,6 +12,7 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [filterName, setFilterName] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -36,16 +37,29 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
+  const handleFilterChange = (event) => {
+    setFilterName(event.target.value);
+  };
+
   const isDuplicateName = (name) => {
     return persons.some(
       (person) => person.name.toLowerCase() === name.toLowerCase()
     );
   };
 
+  const filteredPersons = persons.filter((person) =>
+    person.name.toLowerCase().includes(filterName.toLowerCase())
+  );
+
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
+        <div>
+          filter shown with:
+          <input value={filterName} onChange={handleFilterChange} />
+        </div>
+        <h1>add a new</h1>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
         </div>
@@ -58,7 +72,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => (
+        {filteredPersons.map((person) => (
           <Person key={person.id} name={person.name} number={person.number} />
         ))}
       </ul>
