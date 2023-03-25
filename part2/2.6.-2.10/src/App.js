@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 // components
 import Person from "./components/Person";
 import SearchFilter from "./components/SearchFilter";
+import AddPersonForm from "./components/AddPersonForm";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -16,7 +17,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
 
-  const addPerson = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (isDuplicateName(newName)) {
       alert(`${newName} already exists in the phonebook.`);
@@ -57,19 +58,13 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <SearchFilter value={filterName} onChange={handleFilterChange} />
-
-      <form onSubmit={addPerson}>
-        <h1>add a new</h1>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <AddPersonForm
+        onSubmit={handleSubmit}
+        nameValue={newName}
+        numberValue={newNumber}
+        onChangeName={handleNameChange}
+        onChangeNumber={handleNumberChange}
+      />
       <h2>Numbers</h2>
       <ul>
         {filteredPersons.map((person) => (
