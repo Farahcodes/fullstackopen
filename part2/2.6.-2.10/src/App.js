@@ -9,16 +9,25 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+    if (isDuplicateName(newName)) {
+      alert(`${newName} already exists in the phonebook.`);
+      return;
+    }
     const personObject = {
       id: persons.length + 1,
       name: newName,
     };
-    setPersons(persons.concat(personObject));
+    setPersons([...persons, personObject]);
     setNewName("");
   };
   const handleNameChange = (event) => {
-    console.log(event.target.value);
     setNewName(event.target.value);
+  };
+
+  const isDuplicateName = (name) => {
+    return persons.some(
+      (person) => person.name.toLowerCase() === name.toLowerCase()
+    );
   };
 
   return (
