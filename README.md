@@ -43,6 +43,6 @@ Topics:
 * 
 Projects:
 
-[Course Info](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.3.-1.5.%20course-info-app) - A simple page to display course information.
-[Unicafe](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.6.-1.11.%20unicafe) - A feedback page and statistics page to demonstrate state using React hooks.
-[Anecdotes](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.12.-1.14.Anecdotes) - A page that shows the user random anecdotes that can be voted upon.
+* [Course Info](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.3.-1.5.%20course-info-app) - A simple page to display course information.
+* [Unicafe](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.6.-1.11.%20unicafe) - A feedback page and statistics page to demonstrate state using React hooks.
+* [Anecdotes](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.12.-1.14.Anecdotes) - A page that shows the user random anecdotes that can be voted upon.
