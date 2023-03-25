@@ -62,7 +62,6 @@ const App = () => {
           <Person key={person.id} name={person.name} number={person.number} />
         ))}
       </ul>
-      <div>debug: {newName}</div>
     </div>
   );
 };
