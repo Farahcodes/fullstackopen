@@ -31,3 +31,18 @@ Topics:
 Projects:
 
 [Sequence diagrams](https://github.com/Farahcodes/fullstackopen/tree/master/part0) - Diagrams to illustrate the chain of events during network communication for single page apps and for traditional apps
+
+### Part 1 - [Introduction to React](https://fullstackopen.com/en/part1)
+
+Topics:
+
+* React
+* Props
+* Event handlers
+* State management using hooks
+* 
+Projects:
+
+[Course Info](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.3.-1.5.%20course-info-app) - A simple page to display course information.
+[Unicafe](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.6.-1.11.%20unicafe) - A feedback page and statistics page to demonstrate state using React hooks.
+[Anecdotes](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.12.-1.14.Anecdotes) - A page that shows the user random anecdotes that can be voted upon.
