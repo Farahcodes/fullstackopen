@@ -2,9 +2,9 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 // components
-import Person from "./components/Person";
 import SearchFilter from "./components/SearchFilter";
 import AddPersonForm from "./components/AddPersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -66,11 +66,7 @@ const App = () => {
         onChangeNumber={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <ul>
-        {filteredPersons.map((person) => (
-          <Person key={person.id} name={person.name} number={person.number} />
-        ))}
-      </ul>
+      <Persons persons={filteredPersons} />
     </div>
   );
 };
