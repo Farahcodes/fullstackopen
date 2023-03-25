@@ -40,7 +40,7 @@ Topics:
 * Props
 * Event handlers
 * State management using hooks
-* 
+
 Projects:
 
 * [Course Info](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.3.-1.5.%20course-info-app) - A simple page to display course information.
