@@ -15,3 +15,19 @@ This comprehensive course is known for its exceptional quality and rigorous curr
 * React Native
 * Unit testing, integration testing, and end-to-end testing
 * CI/CD
+
+## Course Contents and Projects Summary
+
+### Part 0 - [Fundamentals of Web Apps](https://fullstackopen.com/en/part0)
+
+Topics:
+
+* HTML/CSS
+* HTTP requests
+* JSON
+* The Document Object Model (DOM)
+* JavaScript libraries
+
+Projects:
+
+[Sequence diagrams](https://github.com/Farahcodes/fullstackopen/tree/master/part0) - Diagrams to illustrate the chain of events during network communication for single page apps and for traditional apps
