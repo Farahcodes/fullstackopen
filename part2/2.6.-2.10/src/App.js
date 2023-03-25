@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 // components
 import Person from "./components/Person";
@@ -22,7 +23,7 @@ const App = () => {
       return;
     }
     const personObject = {
-      id: persons.length + 1,
+      id: uuidv4(),
       name: newName,
       number: newNumber,
     };
@@ -55,8 +56,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <SearchFilter value={filterName} onChange={handleFilterChange} />
+
       <form onSubmit={addPerson}>
-        <SearchFilter value={filterName} onChange={handleFilterChange} />
         <h1>add a new</h1>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
