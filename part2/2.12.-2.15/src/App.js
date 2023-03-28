@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 
 // components
 import SearchFilter from "./components/SearchFilter";
 import AddPersonForm from "./components/AddPersonForm";
 import Persons from "./components/Persons";
+// services
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -14,9 +15,8 @@ const App = () => {
   const [filterName, setFilterName] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   }, []);
 
