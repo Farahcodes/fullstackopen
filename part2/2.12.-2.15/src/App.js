@@ -22,20 +22,40 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (isDuplicateName(newName)) {
-      alert(`${newName} already exists in the phonebook.`);
-      return;
+    const existingPerson = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${existingPerson.name} is already added to phonebook. Replace the old number with a new one?`
+        )
+      ) {
+        const updatedPerson = { ...existingPerson, number: newNumber };
+        personService
+          .update(existingPerson.id, updatedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== existingPerson.id ? person : returnedPerson
+              )
+            );
+            setNewName("");
+            setNewNumber("");
+          });
+      }
+    } else {
+      const personObject = {
+        id: uuidv4(),
+        name: newName,
+        number: newNumber,
+      };
+      personService.create(personObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+      });
     }
-    const personObject = {
-      id: uuidv4(),
-      name: newName,
-      number: newNumber,
-    };
-    personService.create(personObject).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      setNewName("");
-      setNewNumber("");
-    });
   };
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -47,12 +67,6 @@ const App = () => {
 
   const handleFilterChange = (event) => {
     setFilterName(event.target.value);
-  };
-
-  const isDuplicateName = (name) => {
-    return persons.some(
-      (person) => person.name.toLowerCase() === name.toLowerCase()
-    );
   };
 
   const filteredPersons = persons.filter((person) =>
