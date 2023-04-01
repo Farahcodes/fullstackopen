@@ -101,7 +101,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification message={successMessage} type="success" />
+      <Notification message={errorMessage} type="error" />
       <SearchFilter value={filterName} onChange={handleFilterChange} />
       <AddPersonForm
         onSubmit={handleSubmit}
