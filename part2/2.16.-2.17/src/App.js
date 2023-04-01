@@ -15,6 +15,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -44,6 +45,16 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
+            setSuccessMessage(`Updated ${returnedPerson.name}'s number`);
+          })
+          .catch((error) => {
+            setErrorMessage(
+              `${existingPerson.name} has already been removed from the server`
+            );
+            setPersons(persons.filter((p) => p.id !== existingPerson.id));
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
           });
       }
     } else {
