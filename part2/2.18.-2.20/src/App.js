@@ -5,6 +5,12 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  useEffect(() => {
+    countryService.getAll().then((countries) => {
+      setCountries(countries);
+    });
+  }, []);
+
   return (
     <div>
       <h2>Countries</h2>
