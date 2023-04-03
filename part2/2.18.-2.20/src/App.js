@@ -15,6 +15,13 @@ const App = () => {
     setSearchQuery(event.target.value);
   };
 
+  const countriesToShow =
+    searchQuery === ""
+      ? []
+      : countries.filter((country) =>
+          country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
   return (
     <div>
       <h2>Countries</h2>
