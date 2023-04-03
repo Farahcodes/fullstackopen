@@ -65,7 +65,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>Countries</h2>
+      <label>Find countries: </label>
+      <input value={searchQuery} onChange={handleSearchQueryChange} />
+      {renderCountryList()}
     </div>
   );
 };
