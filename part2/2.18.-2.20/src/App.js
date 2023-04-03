@@ -46,7 +46,7 @@ const App = () => {
     if (selectedCountry) {
       const country = selectedCountry;
       return (
-        <div>
+        <div className="container">
           <h2>{country.name.common}</h2>
           <p>Capital: {country.capital}</p>
           <p>Area: {country.area} km²</p>
@@ -58,7 +58,7 @@ const App = () => {
           </ul>
           <img src={country.flags.png} alt={country.name.common} width="200" />
           {weather && (
-            <div>
+            <div className="weather">
               <h3>Weather in {selectedCountry.capital}</h3>
               <p>Temperature: {weather.main.temp}°C</p>
               <img
@@ -69,17 +69,20 @@ const App = () => {
               <p>Wind: {weather.wind.speed} m/s</p>
             </div>
           )}
-          I hope this helps! Let me know if you have any further questions.
         </div>
       );
     } else if (countriesToShow.length === 0) {
-      return <p>No countries found.</p>;
+      return <p className="message">No countries found.</p>;
     } else if (countriesToShow.length > 10) {
-      return <p>Too many matches, please specify another filter.</p>;
+      return (
+        <p className="message">
+          Too many matches, please specify another filter.
+        </p>
+      );
     } else if (countriesToShow.length === 1) {
       const country = countriesToShow[0];
       return (
-        <div>
+        <div className="container">
           <h2>{country.name.common}</h2>
           <p>Capital: {country.capital}</p>
           <p>Area: {country.area} km²</p>
@@ -91,7 +94,7 @@ const App = () => {
           </ul>
           <img src={country.flags.png} alt={country.name.common} width="200" />
           {weather && (
-            <div>
+            <div className="weather">
               <h3>Weather in {selectedCountry.capital[0]}</h3>
               <p>Temperature: {weather.main.temp}°C</p>
               <img
@@ -106,11 +109,15 @@ const App = () => {
       );
     } else {
       return (
-        <ul>
+        <ul className="country-list">
           {countriesToShow.map((country) => (
             <li key={country.name.common}>
               {country.name.common}
-              <button onClick={handleShowCountry} value={country.name.common}>
+              <button
+                className="show-button"
+                onClick={handleShowCountry}
+                value={country.name.common}
+              >
                 show
               </button>
             </li>
