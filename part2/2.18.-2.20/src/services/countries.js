@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
 const baseUrl = "https://restcountries.com/v3.1/all";
 
