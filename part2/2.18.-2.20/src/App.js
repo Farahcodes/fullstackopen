@@ -22,6 +22,9 @@ const App = () => {
           country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
+  const handleShowCountry = (event) => {
+    setSearchQuery(event.target.value);
+  };
   return (
     <div>
       <h2>Countries</h2>
