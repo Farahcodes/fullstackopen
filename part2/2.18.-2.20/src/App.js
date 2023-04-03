@@ -11,6 +11,10 @@ const App = () => {
     });
   }, []);
 
+  const handleSearchQueryChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <div>
       <h2>Countries</h2>
