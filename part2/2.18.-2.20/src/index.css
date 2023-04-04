@@ -1,33 +1,41 @@
 body {
-  background-color: #f2f2f2;
-  font-family: sans-serif;
+  background-color: #fdfdfd;
+  font-family: "Montserrat", sans-serif;
   margin: 0;
 }
 
 .container {
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   margin: 10px auto;
   max-width: 800px;
-  padding: 20px;
+  padding: 40px;
 }
 
 label {
   display: block;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  color: #222222;
+  text-align: center;
+  padding-top: 25px;
 }
 
 input {
   display: block;
   width: 100%;
-  padding: 10px;
+  max-width: 500px;
+  padding: 15px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  color: #222222;
+  background-color: #f5f5f5;
+  margin: auto;
+  margin-bottom: 25px;
 }
 
 ul {
@@ -37,54 +45,60 @@ ul {
 }
 
 li {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 
 li button {
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  padding: 10px 15px;
+  background-color: #ffb6c1;
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.2s ease;
 }
 
 li button:hover {
-  background-color: #0062cc;
+  background-color: #ff69b4;
 }
 
 li h2 {
   font-size: 24px;
   margin-bottom: 10px;
+  color: #222222;
 }
 
 li img {
-  width: 100px;
+  width: 120px;
   margin-left: 20px;
 }
 
 li p {
   font-size: 18px;
   margin-bottom: 10px;
+  color: #222222;
 }
 
 .weather {
   margin-top: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 12px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 
 .weather h3 {
   font-size: 24px;
   margin-bottom: 10px;
+  color: #222222;
 }
 
 .weather img {
@@ -95,32 +109,43 @@ li p {
 .weather p {
   font-size: 18px;
   margin-bottom: 10px;
+  color: #222222;
 }
 
 .country-list {
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   margin: 10px auto;
   max-width: 800px;
   padding: 20px;
 }
+
 .message {
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fdefef;
+  border-radius: 12px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   margin: 10px auto;
   max-width: 800px;
-  padding: 20px;
+  padding: 40px;
   text-align: center;
+  color: #ff527b;
+  font-weight: bold;
+  font-size: 24px;
 }
 
 .show-button {
-  background-color: #4caf50;
+  background-color: #ff527b;
   border: none;
-  border-radius: 3px;
-  color: #fff;
+  border-radius: 8px;
+  color: #ffffff;
   cursor: pointer;
-  margin-left: 10px;
-  padding: 5px 10px;
+  font-size: 16px;
+  padding: 10px 15px;
+  transition: background-color 0.2s ease;
+  text-transform: uppercase;
+}
+
+.show-button:hover {
+  background-color: #ff305e;
 }
