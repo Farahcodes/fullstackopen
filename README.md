@@ -46,3 +46,18 @@ Projects:
 * [Course Info](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.3.-1.5.%20course-info-app) - A simple page to display course information.
 * [Unicafe](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.6.-1.11.%20unicafe) - A feedback page and statistics page to demonstrate state using React hooks.
 * [Anecdotes](https://github.com/Farahcodes/fullstackopen/tree/master/part1/1.12.-1.14.Anecdotes) - A page that shows the user random anecdotes that can be voted upon.
+
+### Part 2 - [Communicating with the Server](https://fullstackopen.com/en/part2)
+
+Topics:
+
+* HTTP requests using axios
+* 3rd party APIs
+* Forms
+* Rendering collections of data from the server
+
+Projects:
+
+* [Course Info 2](https://github.com/Farahcodes/fullstackopen/tree/master/part2/2.1.-2.5) - A continuation of the project from the part 1 that has been refactored into a more maintainable structure
+* [Countries](https://github.com/Farahcodes/fullstackopen/tree/master/part2/2.18.-2.20) - A page that pulls country and weather data from 3rd party APIs as the user searches for country names.
+* [Phonebook Front End](https://github.com/Farahcodes/fullstackopen/tree/master/part2/2.16.-2.17) - A phonebook front end that displays and filters phonebook entries. New entries can be added, deleted, or modified. JSON server is used as a mock REST API.
