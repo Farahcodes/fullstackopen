@@ -26,14 +26,23 @@ let persons = [
   },
 ];
 
+//event handler that is used to handle HTTP GET requests made to the application's / root:
 app.get('/', (request, response) => {
-  //event handler that is used to handle HTTP GET requests made to the application's / root:
   response.send('<h1>Hello World!</h1>');
 });
 
+//event handler that handles HTTP GET requests made to the persons path of the application
 app.get('/api/persons', (request, response) => {
-  //event handler that handles HTTP GET requests made to the persons path of the application
   response.json(persons);
+});
+
+//event handler that handles HTTP GET requests made to the info path
+app.get('/info', (request, response) => {
+  const date = new Date();
+  const count = persons.length;
+  response.send(
+    `<div>Phonebook has info for ${count} people</div><div>${date}</div>`
+  );
 });
 
 const PORT = 3001;
