@@ -27,10 +27,12 @@ let persons = [
 ];
 
 app.get('/', (request, response) => {
+  //event handler that is used to handle HTTP GET requests made to the application's / root:
   response.send('<h1>Hello World!</h1>');
 });
 
 app.get('/api/persons', (request, response) => {
+  //event handler that handles HTTP GET requests made to the persons path of the application
   response.json(persons);
 });
 
