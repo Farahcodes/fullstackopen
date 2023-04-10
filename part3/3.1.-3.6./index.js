@@ -60,7 +60,8 @@ app.get('/api/persons/:id', (request, response) => {
 //event handler for deleting a single resource
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id);
-  persons = persons.filter((person) => person.id !== id);
+  const newPersons = persons.filter((person) => person.id !== id);
+  persons = newPersons;
   response.status(204).end();
 });
 
@@ -80,7 +81,8 @@ app.post('/api/persons', (request, response) => {
     number: body.number,
   };
 
-  persons = persons.concat(person);
+  const newPersons = persons.concat(person);
+  persons = newPersons;
 
   response.json(person);
 });
