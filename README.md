@@ -61,3 +61,16 @@ Projects:
 * [Course Info 2](https://github.com/Farahcodes/fullstackopen/tree/master/part2/2.1.-2.5) - A continuation of the project from the part 1 that has been refactored into a more maintainable structure
 * [Countries](https://github.com/Farahcodes/fullstackopen/tree/master/part2/2.18.-2.20) - A page that pulls country and weather data from 3rd party APIs as the user searches for country names.
 * [Phonebook Front End](https://github.com/Farahcodes/fullstackopen/tree/master/part2/2.16.-2.17) - A phonebook front end that displays and filters phonebook entries. New entries can be added, deleted, or modified. JSON server is used as a mock REST API.
+
+### Part 3- [Programming a Server with Node.js and Express](https://fullstackopen.com/en/part3)
+
+Topics:
+
+* REST APIs using Node.js and Express
+* MongoDB with Mongoose
+* Express middleware for logging, error handling, etc.
+* ESlint
+
+Projects
+
+* [Phonebook back End](https://github.com/Farahcodes/fullstackopen/tree/master/part3/phonebook%20fullstack/phonebook%20backend) - A RESTful back end in Express for the phonebook front end from the previous part. Uses Mongoose and a MongoDB database.
