@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+app.use(express.static('build'));
 
 let persons = [
   {
