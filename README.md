@@ -73,4 +73,5 @@ Topics:
 
 Projects
 
-* [Phonebook back End](https://github.com/Farahcodes/fullstackopen/tree/master/part3/phonebook%20fullstack/phonebook%20backend) - A RESTful back end in Express for the phonebook front end from the previous part. Uses Mongoose and a MongoDB database.
+* [Phonebook back End](https://github.com/Farahcodes/fullstackopen/tree/master/part3/phonebook%20fullstack/phonebook%20backend) - A RESTful back end in Express for the phonebook front end from the previous part. Uses Mongoose and a MongoDB database. 
+[Backend deployed here with fly](https://phonebook-fullstack-helsinki.fly.dev/)
