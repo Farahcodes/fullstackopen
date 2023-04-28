@@ -1,6 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const Person = require('./models/person');
 
 const app = express();
 
@@ -39,7 +42,9 @@ app.get('/', (request, response) => {
 
 //event handler that handles HTTP GET requests made to the persons path of the application
 app.get('/api/persons', (request, response) => {
-  response.json(persons);
+  Person.find({}).then((persons) => {
+    response.json(persons);
+  });
 });
 
 //event handler that handles HTTP GET requests made to the info path
@@ -53,14 +58,9 @@ app.get('/info', (request, response) => {
 
 // event handler for fetching a single resource
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((person) => person.id === id);
-
-  if (person) {
+  Person.findById(request.params.id).then((person) => {
     response.json(person);
-  } else {
-    response.status(404).end();
-  }
+  });
 });
 
 //event handler for deleting a single resource
@@ -72,6 +72,7 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 //event handler for adding a new resource
+
 app.post('/api/persons', (request, response) => {
   const body = request.body;
 
@@ -81,26 +82,29 @@ app.post('/api/persons', (request, response) => {
     });
   }
 
-  const existingPerson = persons.find(
-    (person) => person.name === body.name
-  );
+  Person.findOne({ name: body.name }).then((existingPerson) => {
+    if (existingPerson) {
+      return response.status(400).json({
+        error: 'name must be unique',
+      });
+    }
 
-  if (existingPerson) {
-    return response.status(400).json({
-      error: 'name must be unique',
+    const person = new Person({
+      name: body.name,
+      number: body.number,
     });
-  }
 
-  const person = {
-    id: Math.floor(Math.random() * 1000000),
-    name: body.name,
-    number: body.number,
-  };
-
-  const newPersons = persons.concat(person);
-  persons = newPersons;
-
-  response.json(person);
+    person
+      .save()
+      .then((savedPerson) => {
+        response.json(savedPerson);
+      })
+      .catch((error) => {
+        response.status(500).json({
+          error: error.message,
+        });
+      });
+  });
 });
 
 const PORT = process.env.PORT || 3001;
