@@ -5,6 +5,16 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const Person = require('./models/person');
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' });
+  }
+
+  next(error);
+};
+
 const app = express();
 
 app.use(express.json());
