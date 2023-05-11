@@ -74,7 +74,7 @@ app.get('/api/persons/:id', (request, response) => {
 });
 
 //event handler for adding a new resource
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body;
 
   if (!body.name || !body.number) {
@@ -83,29 +83,36 @@ app.post('/api/persons', (request, response) => {
     });
   }
 
-  Person.findOne({ name: body.name }).then((existingPerson) => {
-    if (existingPerson) {
-      return response.status(400).json({
-        error: 'name must be unique',
-      });
-    }
+  Person.findOne({ name: body.name })
+    .then((existingPerson) => {
+      if (existingPerson) {
+        const updatedPerson = {
+          name: body.name,
+          number: body.number,
+        };
 
-    const person = new Person({
-      name: body.name,
-      number: body.number,
-    });
-
-    person
-      .save()
-      .then((savedPerson) => {
-        response.json(savedPerson);
-      })
-      .catch((error) => {
-        response.status(500).json({
-          error: error.message,
+        Person.findByIdAndUpdate(existingPerson._id, updatedPerson, {
+          new: true,
+        })
+          .then((updatedDoc) => {
+            response.json(updatedDoc);
+          })
+          .catch((error) => next(error));
+      } else {
+        const person = new Person({
+          name: body.name,
+          number: body.number,
         });
-      });
-  });
+
+        person
+          .save()
+          .then((savedPerson) => {
+            response.json(savedPerson);
+          })
+          .catch((error) => next(error));
+      }
+    })
+    .catch((error) => next(error));
 });
 
 //event handler for deleting a resource
