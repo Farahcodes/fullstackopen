@@ -61,12 +61,19 @@ app.get('/api/persons', (request, response) => {
 });
 
 //event handler that handles HTTP GET requests made to the info path
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
   const date = new Date();
-  const count = persons.length;
-  response.send(
-    `<div>Phonebook has info for ${count} people</div><div>${date}</div>`
-  );
+  Person.countDocuments({}, (err, count) => {
+    if (err) {
+      next(err);
+    } else if (count === 0) {
+      next(); // Pass to the next middleware function
+    } else {
+      response.send(
+        `<div>Phonebook has info for ${count} people</div><div>${date}</div>`
+      );
+    }
+  });
 });
 
 // event handler for fetching a single resource
