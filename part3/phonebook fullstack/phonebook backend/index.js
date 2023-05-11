@@ -72,7 +72,6 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 //event handler for adding a new resource
-
 app.post('/api/persons', (request, response) => {
   const body = request.body;
 
@@ -105,6 +104,15 @@ app.post('/api/persons', (request, response) => {
         });
       });
   });
+});
+
+//event handler for deleting a resource
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 const PORT = process.env.PORT || 3001;
