@@ -70,10 +70,16 @@ app.get('/info', (request, response) => {
 });
 
 // event handler for fetching a single resource
-app.get('/api/persons/:id', (request, response) => {
-  Person.findById(request.params.id).then((person) => {
-    response.json(person);
-  });
+app.get('/api/persons/:id', (request, response, next) => {
+  Person.findById(request.params.id)
+    .then((person) => {
+      if (person) {
+        response.json(person);
+      } else {
+        next();
+      }
+    })
+    .catch((error) => next(error));
 });
 
 //event handler for adding a new resource
