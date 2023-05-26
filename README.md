@@ -73,5 +73,17 @@ Topics:
 
 Projects
 
-* [Phonebook back End](https://github.com/Farahcodes/fullstackopen/tree/master/part3/phonebook%20fullstack/phonebook%20backend) - A RESTful back end in Express for the phonebook front end from the previous part. Uses Mongoose and a MongoDB database. 
+* [Phonebook back End](https://github.com/Farahcodes/fullstackopen/tree/master/part3/phonebook%20fullstack/phonebook%20backend) - A RESTful back end in Express for the phonebook front end from the previous part. Uses Mongoose and a MongoDB database.
 [Backend deployed here with fly](https://phonebook-fullstack-helsinki.fly.dev/)
+
+### Part 4- [Testing Express Servers, User Administration](https://fullstackopen.com/en/part4)
+
+Topics:
+
+* Unit testing and integration testing Express back ends with Jest and SuperTest
+* User entication using using JSON web tokens
+* Password hashing using bcrypt
+
+Projects
+
+* [Blog List back End](https://github.com/Farahcodes/fullstackopen/tree/master/part4-blogList-backend) - A RESTful back end in Express for creating, reading, and updating blog post data. Certain endpoints are limited to authenticated users only. Unit and integration tests were done using Jest and SuperTest.
