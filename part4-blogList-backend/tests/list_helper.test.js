@@ -1,3 +1,4 @@
+/* eslint-disable semi */
 const listHelper = require('../utils/list_helper');
 
 test('dummy returns one', () => {

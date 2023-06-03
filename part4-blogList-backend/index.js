@@ -1,3 +1,4 @@
+/* eslint-disable semi */
 const app = require('./app'); // The actual Express application
 const http = require('http');
 const config = require('./utils/config');
