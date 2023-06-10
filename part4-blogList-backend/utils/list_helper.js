@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable semi */
 // eslint-disable-next-line no-unused-vars
+const _ = require('lodash');
+
 const dummy = (blogs) => {
   return 1;
 };
@@ -23,8 +26,24 @@ const favoriteBlog = (blogs) => {
     likes: favorite.likes,
   };
 };
+
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) return null;
+
+  const authors = _.countBy(blogs, 'author');
+  const author = Object.keys(authors).reduce((a, b) =>
+    authors[a] > authors[b] ? a : b
+  );
+
+  return {
+    author,
+    blogs: authors[author],
+  };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 };
