@@ -21,3 +21,18 @@ const initialBlogs = [
     likes: 5,
   },
 ];
+
+beforeEach(async () => {
+  await Blog.deleteMany({});
+  let blogObject = new Blog(initialBlogs[0]);
+  await blogObject.save();
+  blogObject = new Blog(initialBlogs[1]);
+  await blogObject.save();
+});
+
+test('blogs are returned as json', async () => {
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/);
+}, 100000);
