@@ -36,3 +36,9 @@ test('blogs are returned as json', async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/);
 }, 100000);
+
+test('there are two blogs', async () => {
+  const response = await api.get('/api/blogs');
+
+  expect(response.body).toHaveLength(2);
+});
