@@ -42,3 +42,9 @@ test('there are two blogs', async () => {
 
   expect(response.body).toHaveLength(2);
 });
+
+test('unique identifier is named id', async () => {
+  const response = await api.get('/api/blogs');
+  expect(response.body[0].id).toBeDefined();
+  expect(response.body[0]._id).toBeUndefined();
+});

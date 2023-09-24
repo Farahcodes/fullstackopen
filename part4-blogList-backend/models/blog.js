@@ -1,3 +1,4 @@
+/* eslint-disable semi */
 const mongoose = require('mongoose');
 
 const blogSchema = new mongoose.Schema({
