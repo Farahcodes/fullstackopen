@@ -87,6 +87,16 @@ test('if likes property is missing, it defaults to zero', async () => {
     await api.post('/api/blogs').send(newBlog).expect(400);
   });
 
+  test('if url is missing, response status is 400', async () => {
+    const newBlog = {
+      title: 'Missing URL Blog',
+      author: 'Missing URL Author',
+      likes: 5,
+    };
+
+    await api.post('/api/blogs').send(newBlog).expect(400);
+  });
+
   const response = await api
     .post('/api/blogs')
     .send(newBlog)
