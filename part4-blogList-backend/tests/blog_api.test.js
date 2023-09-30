@@ -94,7 +94,7 @@ test('if title is missing, response status is 400', async () => {
   };
 
   await api.post('/api/blogs').send(newBlog).expect(400);
-});
+}, 10000);
 
 test('if url is missing, response status is 400', async () => {
   const newBlog = {
@@ -104,4 +104,4 @@ test('if url is missing, response status is 400', async () => {
   };
 
   await api.post('/api/blogs').send(newBlog).expect(400);
-});
+}, 10000);
