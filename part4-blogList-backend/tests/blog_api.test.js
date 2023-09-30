@@ -77,26 +77,6 @@ test('if likes property is missing, it defaults to zero', async () => {
     url: 'http://anothernewblog.com/',
   };
 
-  test('if title is missing, response status is 400', async () => {
-    const newBlog = {
-      author: 'Missing Title Author',
-      url: 'http://missingtitle.com/',
-      likes: 5,
-    };
-
-    await api.post('/api/blogs').send(newBlog).expect(400);
-  });
-
-  test('if url is missing, response status is 400', async () => {
-    const newBlog = {
-      title: 'Missing URL Blog',
-      author: 'Missing URL Author',
-      likes: 5,
-    };
-
-    await api.post('/api/blogs').send(newBlog).expect(400);
-  });
-
   const response = await api
     .post('/api/blogs')
     .send(newBlog)
@@ -104,4 +84,24 @@ test('if likes property is missing, it defaults to zero', async () => {
     .expect('Content-Type', /application\/json/);
 
   expect(response.body.likes).toBe(0);
+});
+
+test('if title is missing, response status is 400', async () => {
+  const newBlog = {
+    author: 'Missing Title Author',
+    url: 'http://missingtitle.com/',
+    likes: 5,
+  };
+
+  await api.post('/api/blogs').send(newBlog).expect(400);
+});
+
+test('if url is missing, response status is 400', async () => {
+  const newBlog = {
+    title: 'Missing URL Blog',
+    author: 'Missing URL Author',
+    likes: 5,
+  };
+
+  await api.post('/api/blogs').send(newBlog).expect(400);
 });
