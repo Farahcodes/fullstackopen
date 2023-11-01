@@ -120,3 +120,23 @@ describe('deletion of a blog', () => {
     expect(titles).not.toContain(blogToDelete.title);
   });
 });
+
+describe('updating a blog', () => {
+  test('succeeds with valid id and data', async () => {
+    const blogsAtStart = await Blog.find({});
+    const blogToUpdate = blogsAtStart[0];
+
+    const updatedBlogData = {
+      likes: blogToUpdate.likes + 1,
+    };
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlogData)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    const updatedBlog = await Blog.findById(blogToUpdate.id);
+    expect(updatedBlog.likes).toBe(blogToUpdate.likes + 1);
+  });
+});
