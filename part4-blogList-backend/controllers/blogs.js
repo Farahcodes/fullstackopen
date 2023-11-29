@@ -13,11 +13,6 @@ blogsRouter.get('/', (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const { title, author, url, likes } = request.body;
 
-  if (!title || !url) {
-    return response
-      .status(400)
-      .json({ error: 'Title or URL missing' });
-  }
   const user = await User.findOne(); // Finds the first user
   if (!user) {
     return response.status(400).json({ error: 'No users found' });
@@ -31,14 +26,11 @@ blogsRouter.post('/', async (request, response) => {
     user: user._id, // Associate the user
   });
 
-  try {
-    const savedBlog = await blog.save();
-    response.status(201).json(savedBlog);
-  } catch (error) {
-    response
-      .status(500)
-      .json({ error: 'There was an error saving the blog.' });
-  }
+  const savedBlog = await blog.save();
+  user.blogs = user.blogs.concat(savedBlog._id);
+  await user.save();
+
+  response.status(201).json(savedBlog);
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
