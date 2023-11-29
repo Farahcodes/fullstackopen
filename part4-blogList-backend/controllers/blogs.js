@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable semi */
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 blogsRouter.get('/', (request, response) => {
   Blog.find({}).then((blogs) => {
@@ -9,15 +11,25 @@ blogsRouter.get('/', (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  const { title, url } = request.body;
+  const { title, author, url, likes } = request.body;
 
   if (!title || !url) {
     return response
       .status(400)
       .json({ error: 'Title or URL missing' });
   }
+  const user = await User.findOne(); // Finds the first user
+  if (!user) {
+    return response.status(400).json({ error: 'No users found' });
+  }
 
-  const blog = new Blog(request.body);
+  const blog = new Blog({
+    title,
+    author,
+    url,
+    likes,
+    user: user._id, // Associate the user
+  });
 
   try {
     const savedBlog = await blog.save();
