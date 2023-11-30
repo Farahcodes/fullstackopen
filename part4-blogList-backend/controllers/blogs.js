@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable semi */
+const jwt = require('jsonwebtoken');
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
 const User = require('../models/user');
@@ -15,9 +16,17 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const { title, author, url, likes } = request.body;
 
-  const user = await User.findOne(); // Finds the first user
+  // Extract token and verify
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  if (!request.token || !decodedToken.id) {
+    return response
+      .status(401)
+      .json({ error: 'token missing or invalid' });
+  }
+
+  const user = await User.findById(decodedToken.id);
   if (!user) {
-    return response.status(400).json({ error: 'No users found' });
+    return response.status(401).json({ error: 'invalid user' });
   }
 
   const blog = new Blog({
@@ -25,7 +34,7 @@ blogsRouter.post('/', async (request, response) => {
     author,
     url,
     likes,
-    user: user._id, // Associate the user
+    user: user._id, // Associate the blog with the user
   });
 
   const savedBlog = await blog.save();
