@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import BlogList from './components/BlogList';
 import Login from './components/Login';
@@ -30,13 +31,32 @@ const App = () => {
     setInitialBlogs();
   }, []);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem(
+      'loggedBlogAppUser'
+    );
+
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogAppUser');
+    setUser(null);
+  };
+
   if (!user) return <Login setUser={setUser} />;
 
   if (isError) return <div>Error: Could not load blog list</div>;
 
   if (isLoading) return <div>Loading...</div>;
 
-  return <BlogList blogs={blogs} user={user} />;
+  return (
+    <BlogList blogs={blogs} user={user} handleLogout={handleLogout} />
+  );
 };
 
 export default App;
