@@ -87,3 +87,17 @@ Topics:
 Projects
 
 * [Blog List back End](https://github.com/Farahcodes/fullstackopen/tree/master/part4-blogList-backend) - A RESTful back end in Express for creating, reading, and updating blog post data. Certain endpoints are limited to authenticated users only. Unit and integration tests were done using Jest and SuperTest.
+
+### Part 5- [Testing React Apps](https://fullstackopen.com/en/part5)
+
+Topics:
+
+* Unit testing of React components using [Jest](https://jestjs.io/) and [React Testing Library](https://github.com/testing-library/react-testing-library)
+* End-to-end testing of full stack applications using [Cypress](https://www.cypress.io/)
+* Handling login on the front end using [JSON web tokens](https://jwt.io/)
+* Defining props using [PropTypes](https://github.com/facebook/prop-types)
+
+
+Projects
+
+* [Blog List front End](https://github.com/Farahcodes/fullstackopen/tree/master/part5/bloglist-frontend) - A React front end for the blog list back end from the previous part. Users can add or like their favourite blog posts. Unit testing of React components using Jest and React Testing Library. End-to-End testing of the full stack application using Cypress.
