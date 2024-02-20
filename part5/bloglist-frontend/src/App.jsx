@@ -55,7 +55,12 @@ const App = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <BlogList blogs={blogs} user={user} handleLogout={handleLogout} />
+    <BlogList
+      blogs={blogs}
+      setBlogs={setBlogs}
+      user={user}
+      handleLogout={handleLogout}
+    />
   );
 };
 
