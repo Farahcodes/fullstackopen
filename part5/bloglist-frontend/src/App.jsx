@@ -93,6 +93,19 @@ const App = () => {
     }
   };
 
+  const updateBlog = async (id, blogObject) => {
+    try {
+      const response = await blogService.update(id, blogObject);
+
+      setBlogs(
+        blogs.map((blog) => (blog.id !== id ? blog : response))
+      );
+    } catch (error) {
+      const message = `Unable to 'like': ${handleError(error)}`;
+      displayNotification(message, 'failure');
+    }
+  };
+
   const displayNotification = (message, type = 'success') => {
     setNotification({ message, type });
     setTimeout(() => {
@@ -117,7 +130,11 @@ const App = () => {
     <>
       <Notification notification={notification} />
       <UserInfo user={user} handleLogout={handleLogout} />
-      <BlogList blogs={blogs} addBlog={addBlog} />
+      <BlogList
+        blogs={blogs}
+        addBlog={addBlog}
+        updateBlog={updateBlog}
+      />
     </>
   );
 };

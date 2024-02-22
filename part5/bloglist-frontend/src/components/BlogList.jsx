@@ -6,7 +6,7 @@ import Blog from './Blog';
 import AddBlogForm from './AddBlogForm';
 import Togglable from './Togglable';
 
-const BlogList = ({ blogs, addBlog }) => {
+const BlogList = ({ blogs, addBlog, updateBlog }) => {
   return (
     <div>
       <h1>Blogs</h1>
@@ -15,7 +15,7 @@ const BlogList = ({ blogs, addBlog }) => {
       </Togglable>
       <div>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
         ))}
       </div>
     </div>
