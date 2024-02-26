@@ -85,7 +85,7 @@ const App = () => {
 
       setBlogs(blogs.concat(response));
 
-      const message = `${response.title} by ${response.author} was added`;
+      const message = `'${response.title}' by ${response.author} was added`;
       displayNotification(message, 'success');
     } catch (error) {
       const message = `Add blog unsuccessful: ${handleError(error)}`;
@@ -101,7 +101,20 @@ const App = () => {
         blogs.map((blog) => (blog.id !== id ? blog : response))
       );
     } catch (error) {
-      const message = `Unable to 'like': ${handleError(error)}`;
+      const message = `Unable to like: ${handleError(error)}`;
+      displayNotification(message, 'failure');
+    }
+  };
+
+  const removeBlog = async (id) => {
+    try {
+      await blogService.remove(id);
+
+      setBlogs(blogs.filter((blog) => blog.id !== id));
+
+      displayNotification('Blog removed', 'success');
+    } catch (error) {
+      const message = `Unable to remove blog: ${handleError(error)}`;
       displayNotification(message, 'failure');
     }
   };
@@ -134,6 +147,8 @@ const App = () => {
         blogs={blogs}
         addBlog={addBlog}
         updateBlog={updateBlog}
+        removeBlog={removeBlog}
+        user={user}
       />
     </>
   );
