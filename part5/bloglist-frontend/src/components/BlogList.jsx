@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // components
 import Blog from './Blog';
@@ -34,6 +35,31 @@ const BlogList = ({
       </div>
     </div>
   );
+};
+
+BlogList.propTypes = {
+  blogs: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      author: PropTypes.string,
+      url: PropTypes.string.isRequired,
+      likes: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
+      user: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+      }).isRequired,
+    })
+  ).isRequired,
+  addBlog: PropTypes.func.isRequired,
+  updateBlog: PropTypes.func.isRequired,
+  removeBlog: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default BlogList;

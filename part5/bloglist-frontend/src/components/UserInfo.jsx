@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserInfo = ({ user, handleLogout }) => (
   <div>
@@ -8,5 +9,14 @@ const UserInfo = ({ user, handleLogout }) => (
     </button>
   </div>
 );
+
+UserInfo.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+  }).isRequired,
+  handleLogout: PropTypes.func.isRequired,
+};
 
 export default UserInfo;
