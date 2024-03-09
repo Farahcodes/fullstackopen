@@ -1,3 +1,4 @@
+/* eslint-disable semi */
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 
@@ -63,7 +64,7 @@ const App = () => {
       blogService.setToken(user.token);
       setUser(user);
 
-      const message = `Logged in`;
+      const message = 'Logged in';
       displayNotification(message, 'success');
     } catch (error) {
       const message = `Login unsuccessful: ${handleError(error)}`;
@@ -75,7 +76,7 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogAppUser');
     setUser(null);
 
-    const message = `Logged out`;
+    const message = 'Logged out';
     displayNotification(message, 'success');
   };
 

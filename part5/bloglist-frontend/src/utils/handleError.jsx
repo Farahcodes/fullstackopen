@@ -1,3 +1,4 @@
+/* eslint-disable semi */
 const handleError = (error) => {
   if (error.response) {
     console.error(error.response);
