@@ -18,9 +18,7 @@ const AddBlogForm = ({ addBlog, toggleVisibility }) => {
     };
 
     addBlog(blogObject);
-
     toggleVisibility();
-
     setTitle('');
     setAuthor('');
     setUrl('');
@@ -33,6 +31,7 @@ const AddBlogForm = ({ addBlog, toggleVisibility }) => {
         <div>
           <label htmlFor="title">title:</label>
           <input
+            id="title"
             type="text"
             value={title}
             name="title"
@@ -42,6 +41,7 @@ const AddBlogForm = ({ addBlog, toggleVisibility }) => {
         <div>
           <label htmlFor="author">author:</label>
           <input
+            id="author"
             type="text"
             value={author}
             name="author"
@@ -51,6 +51,7 @@ const AddBlogForm = ({ addBlog, toggleVisibility }) => {
         <div>
           <label htmlFor="url">url:</label>
           <input
+            id="url"
             type="text"
             value={url}
             name="url"
@@ -65,6 +66,7 @@ const AddBlogForm = ({ addBlog, toggleVisibility }) => {
 
 AddBlogForm.propTypes = {
   addBlog: PropTypes.func.isRequired,
+  toggleVisibility: PropTypes.func,
 };
 
 export default AddBlogForm;
