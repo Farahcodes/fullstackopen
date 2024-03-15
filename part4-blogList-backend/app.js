@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable semi */
 const config = require('./utils/config');
 const express = require('express');
@@ -38,6 +39,11 @@ app.use(tokenExtractor);
 app.use('/api/login', loginRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/blogs', userExtractor, blogsRouter); // Apply userExtractor only to blog routes
+
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing');
+  app.use('/api/testing', testingRouter);
+}
 
 // Use error handling middleware last
 app.use(middleware.unknownEndpoint);
