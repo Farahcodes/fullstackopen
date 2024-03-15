@@ -16,7 +16,7 @@ const BlogList = ({
   user,
 }) => {
   return (
-    <div>
+    <div id="blog-list">
       <h1>Blogs</h1>
       <Togglable buttonLabel="Add blog">
         <AddBlogForm addBlog={addBlog} />

@@ -12,7 +12,11 @@ const Notification = ({ notification }) => {
 
   const className = `notification notification--${notification.type}`;
 
-  return <div className={className}>{notification.message}</div>;
+  return (
+    <div id="notification" className={className}>
+      {notification.message}
+    </div>
+  );
 };
 
 Notification.propTypes = {
