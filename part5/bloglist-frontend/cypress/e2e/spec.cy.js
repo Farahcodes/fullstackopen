@@ -1,11 +1,13 @@
 // @ts-nocheck
 import users from '../fixtures/users.json';
+import blogs from './../fixtures/blogs.json';
 
 describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3003/api/testing/reset');
-    cy.createUser(users[0]);
-    cy.createUser(users[1]);
+    users.forEach((user) => {
+      cy.createUser(user);
+    });
     cy.visit('http://localhost:5173');
   });
 
@@ -49,7 +51,7 @@ describe('Blog app', function () {
       cy.login(users[0]);
     });
 
-    it('A blog can be created', function () {
+    it('a blog can be created', function () {
       const { title, author, url } = blogs[0];
 
       cy.contains('button', 'Add blog').should('be.visible').click();
@@ -76,19 +78,21 @@ describe('Blog app', function () {
       });
 
       it('the blog can be liked', function () {
+        const { likes } = blogs[0];
+
         cy.get('.blogs .blog')
           .contains('button', 'Show Details')
           .click();
 
         cy.get('.blogs .blog')
           .should('be.visible')
-          .and('contain', 'Likes: 0');
+          .and('contain', `Likes: ${likes}`);
 
         cy.contains('button', 'like').should('be.visible').click();
 
         cy.get('.blogs .blog')
           .should('be.visible')
-          .and('contain', 'Likes: 1');
+          .and('contain', `Likes: ${likes + 1}`);
       });
 
       it('the blog can be deleted', function () {
@@ -119,19 +123,21 @@ describe('Blog app', function () {
       });
 
       it('the blog can be liked', function () {
+        const { likes } = blogs[0];
+
         cy.get('.blogs .blog')
           .contains('button', 'Show Details')
           .click();
 
         cy.get('.blogs .blog')
           .should('be.visible')
-          .and('contain', 'Likes: 0');
+          .and('contain', `Likes: ${likes}`);
 
         cy.contains('button', 'like').should('be.visible').click();
 
         cy.get('.blogs .blog')
           .should('be.visible')
-          .and('contain', 'Likes: 1');
+          .and('contain', `Likes: ${likes + 1}`);
       });
 
       it('the blog cannot be deleted', function () {
@@ -142,6 +148,41 @@ describe('Blog app', function () {
         cy.get('.blogs .blog')
           .contains('button', 'Remove')
           .should('not.exist');
+      });
+    });
+
+    describe('and there are multiple blogs', function () {
+      beforeEach(function () {
+        blogs.forEach((blog) => {
+          cy.createBlog(blog);
+
+          cy.get('.blogs .blog')
+            .should('be.visible')
+            .and('contain', `${blog.title} by ${blog.author}`);
+        });
+      });
+
+      it('the blogs are ordered by likes (descending)', function () {
+        cy.get('.blogs .blog').each(($blog) => {
+          cy.wrap($blog).contains('button', 'Show Details').click();
+        });
+
+        cy.get('.blogs .blog').then(($blogs) => {
+          let likes = $blogs.map(($index, $blog) => {
+            const likeString = Cypress.$($blog)
+              .find('div:contains("Likes: ")')
+              .text()
+              .replace(/\D/g, '');
+
+            return parseInt(likeString);
+          });
+
+          likes = Array.from(likes);
+
+          const sortedLikes = [...likes].sort((b, a) => a - b);
+
+          expect(likes).to.deep.equal(sortedLikes);
+        });
       });
     });
   });
