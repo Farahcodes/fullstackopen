@@ -34,8 +34,8 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
   const details = () => {
     return (
       <>
-        <div className="blog-url">{blog.url}</div>
-        <div className="blog-likes">
+        <div>{blog.url}</div>
+        <div>
           Likes: {blog.likes}
           <button type="button" onClick={likeBlog}>
             like
@@ -52,7 +52,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div className="blog-title-author">
+      <div className="blog">
         {blog.title} by {blog.author}
         <button type="button" onClick={toggleExpansion}>
           {isExpanded ? 'Hide Details' : 'Show Details'}

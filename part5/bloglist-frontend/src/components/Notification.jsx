@@ -1,9 +1,7 @@
 /* eslint-disable semi */
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// styles
 import '../index.css';
+import PropTypes from 'prop-types';
 
 const Notification = ({ notification }) => {
   if (notification === null) {
@@ -12,11 +10,7 @@ const Notification = ({ notification }) => {
 
   const className = `notification notification--${notification.type}`;
 
-  return (
-    <div id="notification" className={className}>
-      {notification.message}
-    </div>
-  );
+  return <div className={className}>{notification.message}</div>;
 };
 
 Notification.propTypes = {

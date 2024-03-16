@@ -1,12 +1,10 @@
 /* eslint-disable semi */
 // @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// components
 import Blog from './Blog';
 import AddBlogForm from './AddBlogForm';
 import Togglable from './Togglable';
+import PropTypes from 'prop-types';
 
 const BlogList = ({
   blogs,
@@ -16,14 +14,14 @@ const BlogList = ({
   user,
 }) => {
   return (
-    <div id="blog-list">
+    <div className="blog-list">
       <h1>Blogs</h1>
       <Togglable buttonLabel="Add blog">
         <AddBlogForm addBlog={addBlog} />
       </Togglable>
-      <div>
+      <div className="blogs">
         {blogs
-          .sort((a, b) => (b.likes ?? 0) - (a.likes ?? 0))
+          .sort((a, b) => (b.likes || 0) - (a.likes || 0))
           .map((blog) => (
             <Blog
               key={blog.id}

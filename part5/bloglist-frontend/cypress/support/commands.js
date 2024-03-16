@@ -34,3 +34,14 @@ Cypress.Commands.add('createUser', ({ username, name, password }) => {
 
   cy.visit('http://localhost:5173');
 });
+
+Cypress.Commands.add('login', ({ username, password }) => {
+  cy.request({
+    url: 'http://localhost:3003/api/login',
+    method: 'POST',
+    body: { username, password },
+  }).then(({ body }) => {
+    localStorage.setItem('loggedBlogappUser', JSON.stringify(body));
+    cy.visit('http://localhost:5173');
+  });
+});
