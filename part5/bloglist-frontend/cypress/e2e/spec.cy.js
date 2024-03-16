@@ -5,6 +5,7 @@ describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3003/api/testing/reset');
     cy.createUser(users[0]);
+    cy.createUser(users[1]);
     cy.visit('http://localhost:5173');
   });
 
@@ -45,8 +46,7 @@ describe('Blog app', function () {
 
   describe('When logged in', function () {
     beforeEach(function () {
-      const { username, password } = users[0];
-      cy.login({ username, password });
+      cy.login(users[0]);
     });
 
     it('A blog can be created', function () {
@@ -63,13 +63,22 @@ describe('Blog app', function () {
         .should('be.visible')
         .and('contain', `${title} by ${author}`);
     });
+
     describe('and there is a blog from that user', function () {
       beforeEach(function () {
-        cy.createBlog(blogs[0]);
+        const blog = blogs[0];
+
+        cy.createBlog(blog);
+
+        cy.get('.blogs .blog')
+          .should('be.visible')
+          .and('contain', `${blog.title} by ${blog.author}`);
       });
 
-      it('a blog can be liked', function () {
-        cy.contains('button', 'Show Details').click();
+      it('the blog can be liked', function () {
+        cy.get('.blogs .blog')
+          .contains('button', 'Show Details')
+          .click();
 
         cy.get('.blogs .blog')
           .should('be.visible')
@@ -80,6 +89,59 @@ describe('Blog app', function () {
         cy.get('.blogs .blog')
           .should('be.visible')
           .and('contain', 'Likes: 1');
+      });
+
+      it('the blog can be deleted', function () {
+        cy.get('.blogs .blog')
+          .contains('button', 'Show Details')
+          .click();
+
+        cy.get('.blogs .blog').contains('button', 'Remove').click();
+
+        cy.get('.blogs .blog').should('not.exist');
+      });
+    });
+
+    describe('and there is a blog from a different user', function () {
+      beforeEach(function () {
+        cy.logout();
+        cy.login(users[1]);
+
+        const blog = blogs[0];
+        cy.createBlog(blog);
+
+        cy.logout();
+        cy.login(users[0]);
+
+        cy.get('.blogs .blog')
+          .should('be.visible')
+          .and('contain', `${blog.title} by ${blog.author}`);
+      });
+
+      it('the blog can be liked', function () {
+        cy.get('.blogs .blog')
+          .contains('button', 'Show Details')
+          .click();
+
+        cy.get('.blogs .blog')
+          .should('be.visible')
+          .and('contain', 'Likes: 0');
+
+        cy.contains('button', 'like').should('be.visible').click();
+
+        cy.get('.blogs .blog')
+          .should('be.visible')
+          .and('contain', 'Likes: 1');
+      });
+
+      it('the blog cannot be deleted', function () {
+        cy.get('.blogs .blog')
+          .contains('button', 'Show Details')
+          .click();
+
+        cy.get('.blogs .blog')
+          .contains('button', 'Remove')
+          .should('not.exist');
       });
     });
   });
