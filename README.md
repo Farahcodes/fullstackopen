@@ -101,3 +101,16 @@ Topics:
 Projects
 
 * [Blog List front End](https://github.com/Farahcodes/fullstackopen/tree/master/part5/bloglist-frontend) - A React front end for the blog list back end from the previous part. Users can add or like their favourite blog posts. Unit testing of React components using Jest and React Testing Library. End-to-End testing of the full stack application using Cypress.
+
+### Part 6- [State Management with Redux](https://fullstackopen.com/en/part6)
+
+Topics:
+
+* [Redux](https://redux.js.org/) for state management (using both hooks and connect)
+* [Redux Thunk ](https://github.com/reduxjs/redux-thunk) middleware for asynchronous actions
+
+Projects
+
+* [Unicafe Redux](https://github.com/Farahcodes/fullstackopen/tree/master/part6/unicafe-redux) - The unicafe app from part 1 revisited with Redux for state management. Tests for the reducer implemented using Jest.
+* [Redux Anecdotes]() - The anecdotes app from part 1 revisited with Redux for state management. Uses reducers for notifications, filtering data, and initializing/adding/voting for anecodtes. Uses Redux Thunk middleware for for asynchronous actions.
+
