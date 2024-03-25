@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@types/jest": "^29.5.12"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.2.2"
+  }
+}
