@@ -112,5 +112,5 @@ Topics:
 Projects
 
 * [Unicafe Redux](https://github.com/Farahcodes/fullstackopen/tree/master/part6/unicafe-redux) - The unicafe app from part 1 revisited with Redux for state management. Tests for the reducer implemented using Jest.
-* [Redux Anecdotes]() - The anecdotes app from part 1 revisited with Redux for state management. Uses reducers for notifications, filtering data, and initializing/adding/voting for anecodtes. Uses Redux Thunk middleware for for asynchronous actions.
+* [Redux Anecdotes](https://github.com/Farahcodes/fullstackopen/tree/master/part6/redux-anecdotes) - The anecdotes app from part 1 revisited with Redux for state management. Uses reducers for notifications, filtering data, and initializing/adding/voting for anecodtes. Uses Redux Thunk middleware for for asynchronous actions.
 
