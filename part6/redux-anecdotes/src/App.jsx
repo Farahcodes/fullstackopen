@@ -1,14 +1,28 @@
 // @ts-nocheck
 /* eslint-disable no-unused-vars */
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { voteForAnecdote } from './reducers/anecdoteReducer';
+import {
+  voteForAnecdote,
+  createAnecdote,
+} from './reducers/anecdoteReducer';
 
 const App = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
+  const inputRef = useRef();
 
+  // function to dispatch the vote action
   const vote = (id) => {
     dispatch(voteForAnecdote(id));
+  };
+
+  // function to dispatch the create action
+  const addNewAnecdote = (event) => {
+    event.preventDefault();
+    const content = inputRef.current.value;
+    inputRef.current.value = '';
+    dispatch(createAnecdote(content));
   };
 
   return (
@@ -24,11 +38,11 @@ const App = () => {
         </div>
       ))}
       <h2>create new</h2>
-      <form>
+      <form onSubmit={addNewAnecdote}>
         <div>
-          <input />
+          <input ref={inputRef} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   );
