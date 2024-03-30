@@ -1,13 +1,14 @@
 // @ts-nocheck
 /* eslint-disable no-unused-vars */
 import { useSelector, useDispatch } from 'react-redux';
+import { voteForAnecdote } from './reducers/anecdoteReducer';
 
 const App = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const vote = (id) => {
-    console.log('vote', id);
+    dispatch(voteForAnecdote(id));
   };
 
   return (
