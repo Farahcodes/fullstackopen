@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 // @ts-nocheck
 import { createSlice } from '@reduxjs/toolkit';
+import { showNotification } from './notificationReducer';
 
 // Initial anecdotes
 const anecdotesAtStart = [
@@ -44,8 +45,9 @@ const anecdotesSlice = createSlice({
 export const { vote, newAnecdote } = anecdotesSlice.actions;
 
 // Action creators
-export const voteForAnecdote = (id) => (dispatch) => {
+export const voteForAnecdote = (id, content) => (dispatch) => {
   dispatch(vote(id));
+  dispatch(showNotification(`You voted for "${content}"`));
 };
 
 export const createAnecdote = (content) => (dispatch) => {
@@ -55,6 +57,9 @@ export const createAnecdote = (content) => (dispatch) => {
       id: getId(),
       votes: 0,
     })
+  );
+  dispatch(
+    showNotification(`You created a new anecdote "${content}"`)
   );
 };
 
