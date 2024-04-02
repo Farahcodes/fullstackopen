@@ -5,4 +5,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.2"
   }
+  ,
+    "scripts": {
+      "server": "json-server -p3001 --watch db.json"
+    }
 }
