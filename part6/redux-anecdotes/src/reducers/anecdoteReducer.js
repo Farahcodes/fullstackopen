@@ -39,17 +39,4 @@ export const voteForAnecdote = (id, content) => (dispatch) => {
   dispatch(showNotification(`You voted for "${content}"`));
 };
 
-export const createAnecdote = (content) => (dispatch) => {
-  dispatch(
-    newAnecdote({
-      content,
-      id: getId(),
-      votes: 0,
-    })
-  );
-  dispatch(
-    showNotification(`You created a new anecdote "${content}"`)
-  );
-};
-
 export default anecdotesSlice.reducer;
