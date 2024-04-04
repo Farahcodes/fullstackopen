@@ -2,6 +2,8 @@
 // @ts-nocheck
 import { createSlice } from '@reduxjs/toolkit';
 import { showNotification } from './notificationReducer';
+// services
+import anecdoteService from '../services/anecdotes';
 
 const getId = () => (100000 * Math.random()).toFixed(0);
 
@@ -37,6 +39,11 @@ export const { vote, newAnecdote, appendAnecdote, setAnecdotes } =
 export const voteForAnecdote = (id, content) => (dispatch) => {
   dispatch(vote(id));
   dispatch(showNotification(`You voted for "${content}"`));
+};
+
+export const initializeAnecdotes = () => async (dispatch) => {
+  const anecdotes = await anecdoteService.getAll();
+  dispatch(setAnecdotes(anecdotes));
 };
 
 export default anecdotesSlice.reducer;
