@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // @ts-nocheck
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
@@ -8,8 +9,6 @@ import AnecdoteList from './components/AnecdoteList';
 import AnecdoteForm from './components/AnecdoteForm';
 import Filter from './components/Filter';
 import Notification from './components/Notification';
-// services
-import anecdoteService from './services/anecdotes';
 // reducers
 import { initializeAnecdotes } from './reducers/anecdoteReducer';
 

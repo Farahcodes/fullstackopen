@@ -46,4 +46,22 @@ export const initializeAnecdotes = () => async (dispatch) => {
   dispatch(setAnecdotes(anecdotes));
 };
 
+export const createAnecdote = (content) => async (dispatch) => {
+  try {
+    const newAnecdoteData = {
+      content,
+      votes: 0,
+    };
+    const newAnecdote = await anecdoteService.createNew(
+      newAnecdoteData
+    );
+    dispatch(appendAnecdote(newAnecdote));
+  } catch (error) {
+    console.error(
+      'An error occurred while creating anecdote:',
+      error
+    );
+  }
+};
+
 export default anecdotesSlice.reducer;

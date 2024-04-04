@@ -2,11 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-// services
-import anecdoteService from '../services/anecdotes';
 // reducers
-import { newAnecdote } from '../reducers/anecdoteReducer';
-import { showNotification } from '../reducers/notificationReducer';
+import { createAnecdote } from '../reducers/anecdoteReducer';
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -16,13 +13,7 @@ const AnecdoteForm = () => {
     event.preventDefault();
     const content = inputRef.current.value;
     inputRef.current.value = '';
-
-    const createdAnecdote = await anecdoteService.createNew({
-      content,
-      votes: 0,
-    });
-    dispatch(newAnecdote(createdAnecdote));
-    dispatch(showNotification(`You created "${content}"`));
+    dispatch(createAnecdote(content));
   };
 
   return (
