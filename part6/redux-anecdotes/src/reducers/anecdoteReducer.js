@@ -36,9 +36,25 @@ export const { vote, newAnecdote, appendAnecdote, setAnecdotes } =
   anecdotesSlice.actions;
 
 // Action creators
-export const voteForAnecdote = (id, content) => (dispatch) => {
-  dispatch(vote(id));
-  dispatch(showNotification(`You voted for "${content}"`));
+export const voteForAnecdote = (anecdote) => async (dispatch) => {
+  try {
+    const updatedAnecdote = await anecdoteService.update(
+      anecdote.id,
+      {
+        ...anecdote,
+        votes: anecdote.votes + 1,
+      }
+    );
+    dispatch(vote(updatedAnecdote.id));
+    dispatch(
+      showNotification(`You voted for '${updatedAnecdote.content}'`)
+    );
+  } catch (error) {
+    console.error(
+      'An error occurred while voting for anecdote:',
+      error
+    );
+  }
 };
 
 export const initializeAnecdotes = () => async (dispatch) => {

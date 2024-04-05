@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { vote } from '../reducers/anecdoteReducer';
+import { voteForAnecdote } from '../reducers/anecdoteReducer';
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,8 @@ const AnecdoteList = () => {
   });
 
   const voteHandler = (id) => {
-    dispatch(vote(id));
+    const anecdote = anecdotes.find((a) => a.id === id);
+    dispatch(voteForAnecdote(anecdote));
   };
 
   return (
