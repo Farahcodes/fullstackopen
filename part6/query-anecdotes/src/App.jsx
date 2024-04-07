@@ -5,20 +5,8 @@ import axios from 'axios';
 // components
 import AnecdoteForm from './components/AnecdoteForm';
 import Notification from './components/Notification';
-
-const fetchAnecdotesList = async () => {
-  try {
-    const response = await axios.get(
-      'http://localhost:3001/anecdotes'
-    );
-    return response.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message ||
-        'An error occurred while fetching the data.'
-    );
-  }
-};
+// requests
+import { getAnecdotes } from '../requests';
 
 const App = () => {
   const handleVote = (anecdote) => {
@@ -27,7 +15,7 @@ const App = () => {
 
   const { isPending, isError, data, error } = useQuery({
     queryKey: ['anecdotes'],
-    queryFn: fetchAnecdotesList,
+    queryFn: getAnecdotes,
   });
 
   if (isPending) {
