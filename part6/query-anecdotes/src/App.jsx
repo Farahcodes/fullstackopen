@@ -4,21 +4,28 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import axios from 'axios';
 
 // components
 import AnecdoteForm from './components/AnecdoteForm';
 import Notification from './components/Notification';
 // requests
 import { getAnecdotes, updateAnecdote } from '../requests';
-
+// Notification reducer
+import { useNotification } from './NotificationContext';
 const App = () => {
   const queryClient = useQueryClient();
+  const { dispatch } = useNotification();
 
   const updateAnecdoteMutation = useMutation({
     mutationFn: updateAnecdote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] });
+      // dispatch notification after successful vote
+      dispatch({
+        type: 'ADD_NOTIFICATION',
+        payload: 'Anecdote voted successfully!',
+        notificationType: 'success',
+      });
     },
   });
 
