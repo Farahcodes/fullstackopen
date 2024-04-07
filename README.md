@@ -108,6 +108,8 @@ Topics:
 
 * [Redux](https://redux.js.org/) for state management (using both hooks and connect)
 * [Redux Thunk ](https://github.com/reduxjs/redux-thunk) middleware for asynchronous actions
+* [React Query ](https://tanstack.com/query/latest/docs/framework/react/overview) for fetching and updating server state (using useQuery and useMutation hooks).
+* [React's useReducer and useContext](https://react.dev/learn/scaling-up-with-reducer-and-context) for global notification state management and access across components.
 
 Projects
 
