@@ -21,3 +21,11 @@ export const createAnecdote = async ({ content, votes }) => {
   );
   return response.data;
 };
+
+export const updateAnecdote = async ({ id, updatedAnecdote }) => {
+  const response = await axios.put(
+    `${baseUrl}/${id}`,
+    updatedAnecdote
+  );
+  return response.data;
+};
