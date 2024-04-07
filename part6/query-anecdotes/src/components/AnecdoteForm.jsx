@@ -3,9 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 // requests
 import { createAnecdote } from '../../requests';
+// Notification reducer
+import { useNotification } from '../NotificationContext';
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient();
+  const { dispatch } = useNotification();
 
   const mutation = useMutation({
     mutationFn: createAnecdote,
@@ -28,6 +31,16 @@ const AnecdoteForm = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries(['anecdotes']);
+      // dispatch notification after successful creation
+      dispatch({
+        type: 'ADD_NOTIFICATION',
+        payload: 'Anecdote created successfully!',
+        notificationType: 'success',
+      });
+      // clearing notification after timeout
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NOTIFICATION' });
+      }, 5000);
     },
   });
 
