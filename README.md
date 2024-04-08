@@ -117,4 +117,15 @@ Projects
 * [Redux Anecdotes](https://github.com/Farahcodes/fullstackopen/tree/master/part6/redux-anecdotes) - The anecdotes app from part 1 revisited with Redux for state management. Uses reducers for notifications, filtering data, and initializing/adding/voting for anecodtes. Uses Redux Thunk middleware for for asynchronous actions.
 * [Query Anecdotes](https://github.com/Farahcodes/fullstackopen/tree/master/part6/query-anecdotes) - The anecdotes app enhanced with React Query for fetching and mutating data, and React's context and reducer for notifications. Implements useQuery and useMutation hooks for handling anecdotes and votes, alongside global notifications managed through custom hooks.
 
+### Part 7- [React Router, Custom Hooks, Styling Apps with CSS and webpack](https://fullstackopen.com/en/part7)
+
+Topics:
+
+* [React Router](https://reactrouter.com/en/main)
+* [Custom React hooks](https://legacy.reactjs.org/docs/hooks-custom.html)
+* [React class components](https://legacy.reactjs.org/docs/react-component.html)
+* UI libraries including [React-Bootstrap](https://react-bootstrap.github.io/) and [Material-UI](https://mui.com/material-ui/)
+* [Styled-Components](https://styled-components.com/)
+* [Webpack](https://webpack.js.org/)
+
 
