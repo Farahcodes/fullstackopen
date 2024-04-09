@@ -16,6 +16,7 @@ import AnecdoteList from './components/AnecdoteList';
 import About from './components/About';
 import CreateNew from './components/CreateNew';
 import Footer from './components/Footer';
+import SingleAnecdote from './components/SingleAnecdote';
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -68,6 +69,10 @@ const App = () => {
         <Route
           path="/create"
           element={<CreateNew addNew={addNew} />}
+        />
+        <Route
+          path="/anecdotes/:id"
+          element={<SingleAnecdote anecdotes={anecdotes} />}
         />
       </Routes>
 
