@@ -8,9 +8,11 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map((anecdote) => (
-        <Link key={anecdote.id} to={`/anecdotes/${anecdote.id}`}>
-          {anecdote.content}
-        </Link>
+        <li key={anecdote.id}>
+          <Link to={`/anecdotes/${anecdote.id}`}>
+            {anecdote.content}
+          </Link>
+        </li>
       ))}
     </ul>
   </div>

@@ -60,6 +60,9 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      {notification && (
+        <div style={{ color: 'green' }}>{notification}</div>
+      )}
       <Routes>
         <Route
           path="/"
@@ -68,7 +71,12 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route
           path="/create"
-          element={<CreateNew addNew={addNew} />}
+          element={
+            <CreateNew
+              addNew={addNew}
+              setNotification={setNotification}
+            />
+          }
         />
         <Route
           path="/anecdotes/:id"

@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const CreateNew = (props) => {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [info, setInfo] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,6 +17,11 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    navigate('/'); // Navigate to the all anecdotes view
+    props.setNotification(`A new anecdote "${content}" created!`); // Set notification message
+    setTimeout(() => {
+      props.setNotification(''); // Clear the notification after 5 seconds
+    }, 5000);
   };
 
   return (
