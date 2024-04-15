@@ -1,4 +1,13 @@
-import ReactDOM from 'react-dom/client'
-import App from './App'
+// @ts-nocheck
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+// store
+import store from './store/store';
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
