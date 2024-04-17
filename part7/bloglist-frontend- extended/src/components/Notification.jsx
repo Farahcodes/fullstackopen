@@ -1,9 +1,13 @@
+// @ts-nocheck
 /* eslint-disable semi */
 import React from 'react';
 import '../index.css';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-const Notification = ({ notification }) => {
+const Notification = () => {
+  const notification = useSelector((state) => state.notification);
+
   if (notification === null) {
     return null;
   }
