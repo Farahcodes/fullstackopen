@@ -15,6 +15,7 @@ import loginService from './services/login';
 import handleError from './utils/handleError';
 // actions
 import { showNotification } from './reducers/notificationReducer';
+import { fetchBlogs } from './reducers/blogReducer';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -24,30 +25,10 @@ const App = () => {
 
   const dispatch = useDispatch();
 
+  // fetching blogs
   useEffect(() => {
-    const setInitialBlogs = async () => {
-      setIsError(false);
-      setIsLoading(true);
-
-      try {
-        const blogs = await blogService.getAll();
-
-        setBlogs(blogs);
-      } catch (error) {
-        dispatch(
-          showNotification({
-            message: `Could not load blogs: ${handleError(error)}`,
-            type: 'failure',
-          })
-        );
-        setIsError(true);
-      }
-
-      setIsLoading(false);
-    };
-
-    setInitialBlogs();
-  }, []);
+    dispatch(fetchBlogs());
+  }, [dispatch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem(
@@ -145,20 +126,13 @@ const App = () => {
   }
 
   if (isError) return <div>Error: Could not load blogs</div>;
-
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <>
-      <Notification notification={notification} />
+      <Notification />
       <UserInfo user={user} handleLogout={handleLogout} />
-      <BlogList
-        blogs={blogs}
-        addBlog={addBlog}
-        updateBlog={updateBlog}
-        removeBlog={removeBlog}
-        user={user}
-      />
+      <BlogList user={user} />
     </>
   );
 };
