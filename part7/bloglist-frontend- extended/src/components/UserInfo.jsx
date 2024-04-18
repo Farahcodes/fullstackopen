@@ -1,15 +1,27 @@
+// @ts-nocheck
 /* eslint-disable semi */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
-const UserInfo = ({ user, handleLogout }) => (
+// actions
+import { logout } from '../reducers/userReducer';
+
+const UserInfo = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  const user = useSelector((state) => state.user);
+
   <div>
     <span>{user.name} is logged in</span>
     <button type="button" onClick={handleLogout}>
       Log out
     </button>
-  </div>
-);
+  </div>;
+};
 
 UserInfo.propTypes = {
   user: PropTypes.shape({

@@ -1,19 +1,23 @@
+// @ts-nocheck
 /* eslint-disable semi */
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const LoginForm = ({ handleLogin }) => {
+// actions
+import { login } from '../reducers/userReducer';
+
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const user = { username, password };
-    handleLogin(user);
 
-    setUsername('');
-    setPassword('');
+    dispatch(login(user));
   };
 
   return (

@@ -1,6 +1,6 @@
 /* eslint-disable semi */
 // @ts-nocheck
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 // components
@@ -8,19 +8,13 @@ import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 import UserInfo from './components/UserInfo';
 import BlogList from './components/BlogList';
-// services
-import blogService from './services/blogs';
-import loginService from './services/login';
-// utils
-import handleError from './utils/handleError';
+
 // actions
-import { showNotification } from './reducers/notificationReducer';
 import { fetchBlogs } from './reducers/blogReducer';
+import { setUser } from './reducers/userReducer';
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -29,6 +23,7 @@ const App = () => {
     dispatch(fetchBlogs());
   }, [dispatch]);
 
+  // set user from local storage
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem(
       'loggedBlogAppUser'
@@ -36,49 +31,15 @@ const App = () => {
 
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      dispatch(setUser(user));
     }
   }, []);
-
-  const handleLogin = async (userObject) => {
-    try {
-      const user = await loginService.login(userObject);
-
-      window.localStorage.setItem(
-        'loggedBlogAppUser',
-        JSON.stringify(user)
-      );
-      blogService.setToken(user.token);
-      setUser(user);
-
-      dispatch(
-        showNotification({ message: 'Logged in', type: 'success' })
-      );
-    } catch (error) {
-      dispatch(
-        showNotification({
-          message: `Login unsuccessful: ${handleError(error)}`,
-          type: 'failure',
-        })
-      );
-    }
-  };
-
-  const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogAppUser');
-    setUser(null);
-
-    dispatch(
-      showNotification({ message: 'Logged out', type: 'success' })
-    );
-  };
 
   if (!user) {
     return (
       <>
         <Notification />
-        <LoginForm handleLogin={handleLogin} />
+        <LoginForm />
       </>
     );
   }
@@ -89,8 +50,8 @@ const App = () => {
   return (
     <>
       <Notification />
-      <UserInfo user={user} handleLogout={handleLogout} />
-      <BlogList user={user} />
+      <UserInfo />
+      <BlogList />
     </>
   );
 };
