@@ -1,7 +1,7 @@
 /* eslint-disable semi */
 // @ts-nocheck
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // components
 import Notification from './components/Notification';
@@ -43,9 +43,6 @@ const App = () => {
       </>
     );
   }
-
-  if (isError) return <div>Error: Could not load blogs</div>;
-  if (isLoading) return <div>Loading...</div>;
 
   return (
     <>

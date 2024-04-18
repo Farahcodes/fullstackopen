@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // services
 import loginService from '../services/login';
+import blogService from '../services/blogs';
 // actions
 import { showNotification } from './notificationReducer';
 
@@ -30,6 +31,7 @@ export const login = (credentials) => async (dispatch) => {
       'loggedBlogAppUser',
       JSON.stringify(user)
     );
+    blogService.setToken(user.token);
     dispatch(setUser(user));
     dispatch(
       showNotification({
@@ -50,6 +52,7 @@ export const login = (credentials) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   window.localStorage.removeItem('loggedBlogAppUser');
+  blogService.setToken(null);
   dispatch(clearUser());
   dispatch(
     showNotification({
