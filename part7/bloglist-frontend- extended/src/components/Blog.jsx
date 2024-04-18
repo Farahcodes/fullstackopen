@@ -1,12 +1,18 @@
+// @ts-nocheck
 /* eslint-disable semi */
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
-const Blog = ({ blog, updateBlog, removeBlog, user }) => {
+// store
+import { likeBlog, deleteBlog } from '../reducers/blogReducer';
+
+const Blog = ({ blog, user }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const dispatch = useDispatch();
 
-  const ownedByUser = user.username === blog.user.username;
+  const ownedByUser = user && user.username === blog.user.username;
 
   const blogStyle = {
     border: '1px solid black',
@@ -18,44 +24,34 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const likeBlog = () => {
-    const newBlog = { ...blog, likes: blog.likes + 1 };
-
-    updateBlog(blog.id, newBlog);
+  const handleLike = () => {
+    dispatch(likeBlog(blog));
   };
 
-  const confirmRemoveBlog = () => {
+  const handleDelete = () => {
     if (
       window.confirm(`Remove blog '${blog.title}' by ${blog.author}`)
     ) {
-      removeBlog(blog.id);
+      dispatch(deleteBlog(blog.id));
     }
   };
 
-  const details = () => {
-    return (
-      <>
-        <div>{blog.url}</div>
-        <div>
-          Likes: {blog.likes}
-          <button type="button" onClick={likeBlog}>
-            like
-          </button>
-        </div>
-        {ownedByUser && (
-          <button type="button" onClick={confirmRemoveBlog}>
-            Remove
-          </button>
-        )}
-      </>
-    );
-  };
+  const details = () => (
+    <>
+      <div>{blog.url}</div>
+      <div>
+        Likes: {blog.likes}
+        <button onClick={handleLike}>like</button>
+      </div>
+      {ownedByUser && <button onClick={handleDelete}>Remove</button>}
+    </>
+  );
 
   return (
-    <div className="blog" style={blogStyle}>
+    <div style={blogStyle}>
       <div>
         {blog.title} by {blog.author}
-        <button type="button" onClick={toggleExpansion}>
+        <button onClick={toggleExpansion}>
           {isExpanded ? 'Hide Details' : 'Show Details'}
         </button>
       </div>
@@ -73,15 +69,13 @@ Blog.propTypes = {
     id: PropTypes.string.isRequired,
     user: PropTypes.shape({
       username: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      id: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  updateBlog: PropTypes.func.isRequired,
-  removeBlog: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    token: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    token: PropTypes.string,
     username: PropTypes.string.isRequired,
   }).isRequired,
 };

@@ -18,7 +18,6 @@ import { showNotification } from './reducers/notificationReducer';
 import { fetchBlogs } from './reducers/blogReducer';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -73,47 +72,6 @@ const App = () => {
     dispatch(
       showNotification({ message: 'Logged out', type: 'success' })
     );
-  };
-
-  const addBlog = async (blogObject) => {
-    try {
-      const response = await blogService.create(blogObject);
-
-      setBlogs(blogs.concat(response));
-
-      const message = `'${response.title}' by ${response.author} was added`;
-      dispatch(showNotification({ message, type: 'success' }));
-    } catch (error) {
-      const message = `Add blog unsuccessful: ${handleError(error)}`;
-      dispatch(showNotification({ message, type: 'failure' }));
-    }
-  };
-
-  const updateBlog = async (id, blogObject) => {
-    try {
-      const response = await blogService.update(id, blogObject);
-
-      setBlogs(
-        blogs.map((blog) => (blog.id !== id ? blog : response))
-      );
-    } catch (error) {
-      const message = `Unable to like: ${handleError(error)}`;
-      dispatch(showNotification({ message, type: 'failure' }));
-    }
-  };
-
-  const removeBlog = async (id) => {
-    try {
-      await blogService.remove(id);
-
-      setBlogs(blogs.filter((blog) => blog.id !== id));
-
-      const message = 'Blog removed';
-      dispatch(showNotification({ message, type: 'success' }));
-    } catch (error) {
-      const message = `Unable to remove blog: ${handleError(error)}`;
-      dispatch(showNotification({ message, type: 'failure' }));
-    }
   };
 
   if (!user) {

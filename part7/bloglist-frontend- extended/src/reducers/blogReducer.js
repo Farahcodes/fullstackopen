@@ -73,4 +73,49 @@ export const createBlog = (blogData) => async (dispatch) => {
   }
 };
 
+export const likeBlog = (blog) => async (dispatch) => {
+  try {
+    const updatedBlog = await blogService.update(blog.id, {
+      ...blog,
+      likes: blog.likes + 1,
+    });
+    dispatch(updateBlogInState(updatedBlog));
+    dispatch(
+      showNotification({
+        message: `Liked "${updatedBlog.title}"!`,
+        type: 'success',
+      })
+    );
+  } catch (error) {
+    console.error('Failed to like blog:', error);
+    dispatch(
+      showNotification({
+        message: 'Failed to like blog.',
+        type: 'failure',
+      })
+    );
+  }
+};
+
+export const deleteBlog = (id) => async (dispatch) => {
+  try {
+    await blogService.remove(id);
+    dispatch(removeBlogFromState(id));
+    dispatch(
+      showNotification({
+        message: 'Blog deleted successfully!',
+        type: 'success',
+      })
+    );
+  } catch (error) {
+    console.error('Failed to delete blog:', error);
+    dispatch(
+      showNotification({
+        message: 'Failed to delete blog.',
+        type: 'failure',
+      })
+    );
+  }
+};
+
 export default blogSlice.reducer;
