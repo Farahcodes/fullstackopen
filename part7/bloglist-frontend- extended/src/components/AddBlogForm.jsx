@@ -1,11 +1,18 @@
+// @ts-nocheck
 /* eslint-disable semi */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
-const AddBlogForm = ({ addBlog, toggleVisibility }) => {
+// store
+import { createBlog } from '../reducers/blogReducer';
+
+const AddBlogForm = ({ toggleVisibility }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,7 +24,7 @@ const AddBlogForm = ({ addBlog, toggleVisibility }) => {
       likes: 0,
     };
 
-    addBlog(blogObject);
+    dispatch(createBlog(blogObject));
     toggleVisibility();
     setTitle('');
     setAuthor('');
