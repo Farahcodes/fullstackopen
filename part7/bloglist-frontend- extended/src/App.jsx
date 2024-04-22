@@ -15,6 +15,7 @@ import LoginForm from './components/LoginForm';
 import UserInfo from './components/UserInfo';
 import BlogList from './components/BlogList';
 import UsersList from './components/UsersList';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Actions
 import { fetchBlogs } from './reducers/blogReducer';
@@ -36,23 +37,43 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Router>
-      <div>
-        <Notification />
-        <nav>
-          <Link to="/">Home</Link> | <Link to="/blogs">Blogs</Link> |{' '}
-          <Link to="/users">Users</Link>
-        </nav>
-        <Routes>
-          <Route
-            path="/"
-            element={user ? <UserInfo /> : <LoginForm />}
-          />
-          <Route path="/blogs" element={<BlogList />} />
-          <Route path="/users" element={<UsersList />} />
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      <Notification />
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/blogs">Blogs</Link> |{' '}
+        <Link to="/users">Users</Link>
+      </nav>
+      <Routes>
+        <Route
+          path="/login"
+          element={user ? <Navigate replace to="/" /> : <LoginForm />}
+        />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <UserInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blogs"
+          element={
+            <ProtectedRoute>
+              <BlogList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <UsersList />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </div>
   );
 };
 
