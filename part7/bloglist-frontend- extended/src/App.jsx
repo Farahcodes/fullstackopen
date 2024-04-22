@@ -2,54 +2,57 @@
 // @ts-nocheck
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+} from 'react-router-dom';
 
-// components
+// Components
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 import UserInfo from './components/UserInfo';
 import BlogList from './components/BlogList';
+import UsersList from './components/UsersList';
 
-// actions
+// Actions
 import { fetchBlogs } from './reducers/blogReducer';
 import { setUser } from './reducers/userReducer';
 
 const App = () => {
   const user = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
 
-  // fetching blogs
   useEffect(() => {
     dispatch(fetchBlogs());
-  }, [dispatch]);
-
-  // set user from local storage
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem(
       'loggedBlogAppUser'
     );
-
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       dispatch(setUser(user));
     }
-  }, []);
-
-  if (!user) {
-    return (
-      <>
-        <Notification />
-        <LoginForm />
-      </>
-    );
-  }
+  }, [dispatch]);
 
   return (
-    <>
-      <Notification />
-      <UserInfo />
-      <BlogList />
-    </>
+    <Router>
+      <div>
+        <Notification />
+        <nav>
+          <Link to="/">Home</Link> | <Link to="/blogs">Blogs</Link> |{' '}
+          <Link to="/users">Users</Link>
+        </nav>
+        <Routes>
+          <Route
+            path="/"
+            element={user ? <UserInfo /> : <LoginForm />}
+          />
+          <Route path="/blogs" element={<BlogList />} />
+          <Route path="/users" element={<UsersList />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

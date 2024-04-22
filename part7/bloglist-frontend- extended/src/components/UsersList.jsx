@@ -1,15 +1,25 @@
 // @ts-nocheck
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-// services
-import usersService from '../services/users';
+import { fetchUsers } from '../reducers/usersReducer';
 
 const UsersList = () => {
-  const [users, setUsers] = useState([]);
+  const {
+    data: users,
+    status,
+    error,
+  } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    usersService.getAll().then((users) => setUsers(users));
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchUsers());
+    }
+  }, [status, dispatch]);
+
+  if (status === 'loading') return <div>Loading...</div>;
+  if (status === 'failed') return <div>Error: {error}</div>;
 
   return (
     <div>
@@ -17,8 +27,8 @@ const UsersList = () => {
       <table>
         <thead>
           <tr>
-            <th></th>
-            <th>blogs created</th>
+            <th>Name</th>
+            <th>Blogs Created</th>
           </tr>
         </thead>
         <tbody>
