@@ -15,6 +15,7 @@ import LoginForm from './components/LoginForm';
 import UserInfo from './components/UserInfo';
 import BlogList from './components/BlogList';
 import UsersList from './components/UsersList';
+import UserDetail from './components/UserDetail';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Actions
@@ -69,6 +70,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <UsersList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/:userId"
+          element={
+            <ProtectedRoute>
+              <UserDetail />
             </ProtectedRoute>
           }
         />

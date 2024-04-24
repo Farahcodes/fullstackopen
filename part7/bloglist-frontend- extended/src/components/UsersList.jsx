@@ -1,16 +1,13 @@
 // @ts-nocheck
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { fetchUsers } from '../reducers/usersReducer';
+import { fetchUsers } from '../reducers/usersSlice';
+import { Link } from 'react-router-dom';
 
 const UsersList = () => {
-  const {
-    data: users,
-    status,
-    error,
-  } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.data);
+  const status = useSelector((state) => state.users.status);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -19,7 +16,7 @@ const UsersList = () => {
   }, [status, dispatch]);
 
   if (status === 'loading') return <div>Loading...</div>;
-  if (status === 'failed') return <div>Error: {error}</div>;
+  if (status === 'failed') return <div>Error loading users</div>;
 
   return (
     <div>
@@ -34,7 +31,9 @@ const UsersList = () => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td>{user.name}</td>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.name}</Link>
+              </td>
               <td>{user.blogs.length}</td>
             </tr>
           ))}
