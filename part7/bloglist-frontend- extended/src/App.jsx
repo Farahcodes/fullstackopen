@@ -14,6 +14,7 @@ import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 import UserInfo from './components/UserInfo';
 import BlogList from './components/BlogList';
+import BlogDetail from './components/BlogDetail';
 import UsersList from './components/UsersList';
 import UserDetail from './components/UserDetail';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -78,6 +79,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <UserDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blogs/:blogId"
+          element={
+            <ProtectedRoute>
+              <BlogDetail />
             </ProtectedRoute>
           }
         />
