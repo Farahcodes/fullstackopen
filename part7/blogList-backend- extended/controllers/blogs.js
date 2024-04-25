@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-unused-vars */
 /* eslint-disable semi */
 const jwt = require('jsonwebtoken');
@@ -80,6 +81,38 @@ blogsRouter.put('/:id', async (request, response) => {
     );
     if (updatedBlog) {
       response.json(updatedBlog);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
+});
+
+// route for adding a comment to a blog
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const { comment } = request.body;
+
+  try {
+    const blog = await Blog.findById(request.params.id);
+    if (blog) {
+      blog.comments = blog.comments.concat(comment);
+      await blog.save();
+      response.status(201).json(blog);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
+});
+
+// route to get comments for a blog
+blogsRouter.get('/:id/comments', async (request, response) => {
+  try {
+    const blog = await Blog.findById(request.params.id);
+    if (blog) {
+      response.json(blog.comments);
     } else {
       response.status(404).end();
     }
