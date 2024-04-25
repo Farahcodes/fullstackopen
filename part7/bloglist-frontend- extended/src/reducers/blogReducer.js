@@ -118,4 +118,25 @@ export const deleteBlog = (id) => async (dispatch) => {
   }
 };
 
+export const addComment = (id, comment) => async (dispatch) => {
+  try {
+    const updatedBlog = await blogService.addComment(id, comment);
+    dispatch(updateBlogInState(updatedBlog));
+    dispatch(
+      showNotification({
+        message: 'Comment added successfully!',
+        type: 'success',
+      })
+    );
+  } catch (error) {
+    console.error('Failed to add comment:', error);
+    dispatch(
+      showNotification({
+        message: 'Failed to add comment.',
+        type: 'failure',
+      })
+    );
+  }
+};
+
 export default blogSlice.reducer;
