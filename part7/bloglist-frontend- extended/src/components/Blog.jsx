@@ -4,8 +4,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
 
-// store
 import { likeBlog, deleteBlog } from '../reducers/blogReducer';
 
 const Blog = ({ blog, user }) => {
@@ -13,12 +19,6 @@ const Blog = ({ blog, user }) => {
   const dispatch = useDispatch();
 
   const ownedByUser = user && user.username === blog.user.username;
-
-  const blogStyle = {
-    border: '1px solid black',
-    margin: '5px 0px',
-    padding: '4px',
-  };
 
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
@@ -38,25 +38,29 @@ const Blog = ({ blog, user }) => {
 
   const details = () => (
     <>
-      <div>{blog.url}</div>
-      <div>
+      <Typography>{blog.url}</Typography>
+      <Typography>
         Likes: {blog.likes}
-        <button onClick={handleLike}>like</button>
-      </div>
-      {ownedByUser && <button onClick={handleDelete}>Remove</button>}
+        <Button onClick={handleLike}>like</Button>
+      </Typography>
+      {ownedByUser && <Button onClick={handleDelete}>Remove</Button>}
     </>
   );
 
   return (
-    <div style={blogStyle}>
-      <div>
-        {blog.title} by {blog.author}
-        <button onClick={toggleExpansion}>
-          {isExpanded ? 'Hide Details' : 'Show Details'}
-        </button>
-      </div>
-      {isExpanded && details()}
-    </div>
+    <Card variant="outlined">
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {blog.title} by {blog.author}
+          <IconButton onClick={toggleExpansion}>
+            <ExpandMoreIcon />
+          </IconButton>
+        </Typography>
+        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+          {details()}
+        </Collapse>
+      </CardContent>
+    </Card>
   );
 };
 
