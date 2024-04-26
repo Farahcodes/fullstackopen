@@ -3,6 +3,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+// MUI components
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
 // store
 import { createBlog } from '../reducers/blogReducer';
@@ -32,48 +38,33 @@ const AddBlogForm = ({ toggleVisibility }) => {
   };
 
   return (
-    <div>
-      <h2>Add New Blog</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">title:</label>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            name="title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="author">author:</label>
-          <input
-            id="author"
-            type="text"
-            value={author}
-            name="author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="url">url:</label>
-          <input
-            id="url"
-            type="text"
-            value={url}
-            name="url"
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <Container>
+      <Typography variant="h2">Add New Blog</Typography>
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          id="title"
+          label="Title"
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+        />
+        <TextField
+          id="author"
+          label="Author"
+          value={author}
+          onChange={({ target }) => setAuthor(target.value)}
+        />
+        <TextField
+          id="url"
+          label="URL"
+          value={url}
+          onChange={({ target }) => setUrl(target.value)}
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Submit
+        </Button>
+      </Box>
+    </Container>
   );
-};
-
-AddBlogForm.propTypes = {
-  addBlog: PropTypes.func.isRequired,
-  toggleVisibility: PropTypes.func,
 };
 
 export default AddBlogForm;
