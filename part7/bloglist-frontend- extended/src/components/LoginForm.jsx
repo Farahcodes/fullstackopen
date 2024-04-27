@@ -2,7 +2,12 @@
 /* eslint-disable semi */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+} from '@mui/material';
 
 // actions
 import { login } from '../reducers/userReducer';
@@ -21,35 +26,39 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h1>Log in to Application</h1>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">username:</label>
-          <input
-            type="text"
-            value={username}
-            name="username-input"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">password:</label>
-          <input
-            type="password"
-            value={password}
-            name="password-input"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">Log in</button>
+    <Container maxWidth="sm">
+      <Typography variant="h4" align="center" gutterBottom>
+        Log in to Application
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Username"
+          variant="outlined"
+          fullWidth
+          value={username}
+          onChange={({ target }) => setUsername(target.value)}
+          margin="normal"
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          fullWidth
+          type="password"
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+          margin="normal"
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+        >
+          Log in
+        </Button>
       </form>
-    </div>
+    </Container>
   );
-};
-
-LoginForm.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
