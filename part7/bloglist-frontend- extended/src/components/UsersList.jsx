@@ -3,6 +3,15 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers } from '../reducers/usersSlice';
 import { Link } from 'react-router-dom';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 const UsersList = () => {
   const dispatch = useDispatch();
@@ -19,27 +28,29 @@ const UsersList = () => {
   if (status === 'failed') return <div>Error loading users</div>;
 
   return (
-    <div>
-      <h2>Users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Blogs Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>
-                <Link to={`/users/${user.id}`}>{user.name}</Link>
-              </td>
-              <td>{user.blogs.length}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Box>
+      <Typography variant="h2">Users</Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Blogs Created</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>
+                  <Link to={`/users/${user.id}`}>{user.name}</Link>
+                </TableCell>
+                <TableCell>{user.blogs.length}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 
