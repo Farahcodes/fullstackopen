@@ -1,12 +1,10 @@
-/* eslint-disable semi */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
 
 const Togglable = ({ buttonLabel, children }) => {
   const [visible, setVisible] = useState(false);
-
-  const hideWhenVisible = { display: visible ? 'none' : '' };
-  const showWhenVisible = { display: visible ? '' : 'none' };
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -20,21 +18,29 @@ const Togglable = ({ buttonLabel, children }) => {
   );
 
   return (
-    <div>
-      <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
-      </div>
-      <div style={showWhenVisible}>
+    <Box>
+      {!visible && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={toggleVisibility}
+        >
+          {buttonLabel}
+        </Button>
+      )}
+      <Collapse in={visible}>
         {childrenWithVisibilityToggle}
-        <button onClick={toggleVisibility}>Cancel</button>
-      </div>
-    </div>
+        <Button
+          variant="text"
+          color="secondary"
+          onClick={toggleVisibility}
+          sx={{ mt: 2 }}
+        >
+          Cancel
+        </Button>
+      </Collapse>
+    </Box>
   );
-};
-
-Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
 };
 
 export default Togglable;
