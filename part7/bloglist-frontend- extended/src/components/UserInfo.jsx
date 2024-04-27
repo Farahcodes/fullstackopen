@@ -1,8 +1,11 @@
 // @ts-nocheck
 /* eslint-disable semi */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 // actions
 import { logout } from '../reducers/userReducer';
@@ -15,21 +18,18 @@ const UserInfo = () => {
   };
   const user = useSelector((state) => state.user);
 
-  <div>
-    <span>{user.name} is logged in</span>
-    <button type="button" onClick={handleLogout}>
-      Log out
-    </button>
-  </div>;
-};
-
-UserInfo.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    token: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-  }).isRequired,
-  handleLogout: PropTypes.func.isRequired,
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="body1">
+          {user.name} is logged in
+        </Typography>
+        <Button variant="contained" onClick={handleLogout}>
+          Log out
+        </Button>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default UserInfo;
