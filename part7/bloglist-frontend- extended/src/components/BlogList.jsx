@@ -2,9 +2,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Container,
+} from '@mui/material';
 
 // components
-import Blog from './Blog';
 import AddBlogForm from './AddBlogForm';
 import Togglable from './Togglable';
 // actions
@@ -19,21 +25,27 @@ const BlogList = () => {
   }, [dispatch]);
 
   return (
-    <div className="blog-list">
-      <h1>Blogs</h1>
+    <Container>
+      <Typography variant="h1" component="h1">
+        Blogs
+      </Typography>
       <Togglable buttonLabel="Add blog">
         <AddBlogForm />
       </Togglable>
-      <div className="blogs">
+      <List>
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
-            <div key={blog.id}>
-              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-            </div>
+            <ListItem
+              key={blog.id}
+              component={Link}
+              to={`/blogs/${blog.id}`}
+            >
+              <ListItemText primary={blog.title} />
+            </ListItem>
           ))}
-      </div>
-    </div>
+      </List>
+    </Container>
   );
 };
 
