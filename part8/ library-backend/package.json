@@ -2,5 +2,15 @@
   "dependencies": {
     "@apollo/server": "^4.10.4",
     "graphql": "^16.8.1"
-  }
+  },
+  "name": "-library-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
