@@ -122,6 +122,11 @@ type Book {
   ): Book
   }
 
+  editAuthor(
+  name: String!
+  setBornTo: Int!
+  ): Author
+
 `;
 
 const resolvers = {
@@ -172,6 +177,15 @@ const resolvers = {
       };
       books.push(newBook);
       return newBook;
+    },
+
+    editAuthor: (_, { name, setBornTo }) => {
+      const author = authors.find((author) => author.name === name);
+      if (author) {
+        author.born = setBornTo;
+        return author;
+      }
+      return null;
     },
   },
 };
