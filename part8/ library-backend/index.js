@@ -112,6 +112,16 @@ type Book {
   allBooks(author: String,genre: String): [Book]
   allAuthors: [Author!]!
   }
+
+  type Mutation {
+  addBook(
+  title: String!
+  author: String!
+  published: Int!
+  genres: [String!]!
+  ): Book
+  }
+
 `;
 
 const resolvers = {
@@ -139,6 +149,30 @@ const resolvers = {
         bookCount: books.filter((book) => book.author === author.name)
           .length,
       })),
+  },
+  Mutation: {
+    addBook: (_, args) => {
+      const { title, author, published, genres } = args;
+      // Check if the author exists
+      if (!authors.some((a) => a.name === author)) {
+        authors.push({
+          name: author,
+          id: `afa5b6f${
+            authors.length + 1
+          }-344d-11e9-a414-719c6709cf3e`,
+        });
+      }
+      // Add the book
+      const newBook = {
+        title,
+        author,
+        published,
+        genres,
+        id: `afa5b6f${books.length + 4}-344d-11e9-a414-719c6709cf3e`,
+      };
+      books.push(newBook);
+      return newBook;
+    },
   },
 };
 
