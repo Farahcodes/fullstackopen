@@ -1,8 +1,28 @@
-const Authors = (props) => {
-  if (!props.show) {
-    return null
+/* eslint-disable no-unused-vars */
+import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+
+const ALL_AUTHORS = gql`
+  query {
+    allAuthors {
+      name
+      born
+      bookCount
+    }
   }
-  const authors = []
+`;
+
+/* eslint-disable react/prop-types */
+const Authors = ({ show }) => {
+  const { loading, error, data } = useQuery(ALL_AUTHORS);
+
+  if (!show) {
+    return null;
+  }
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  const authors = [];
 
   return (
     <div>
@@ -14,7 +34,7 @@ const Authors = (props) => {
             <th>born</th>
             <th>books</th>
           </tr>
-          {authors.map((a) => (
+          {data.allAuthors.map((a) => (
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
@@ -24,7 +44,7 @@ const Authors = (props) => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default Authors
+export default Authors;
