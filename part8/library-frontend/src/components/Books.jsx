@@ -1,9 +1,28 @@
-const Books = (props) => {
-  if (!props.show) {
-    return null
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+
+import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+
+const ALL_BOOKS = gql`
+  query {
+    allBooks {
+      title
+      author
+      published
+    }
+  }
+`;
+
+const Books = ({ show }) => {
+  const { loading, error, data } = useQuery(ALL_BOOKS);
+
+  if (!show) {
+    return null;
   }
 
-  const books = []
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
@@ -16,17 +35,17 @@ const Books = (props) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.map((a) => (
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author}</td>
-              <td>{a.published}</td>
+          {data.allBooks.map((b) => (
+            <tr key={b.title}>
+              <td>{b.title}</td>
+              <td>{b.author}</td>
+              <td>{b.published}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default Books
+export default Books;
