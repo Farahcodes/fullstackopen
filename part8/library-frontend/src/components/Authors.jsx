@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useState } from 'react';
+import { useQuery, useMutation, gql } from '@apollo/client';
 
 const ALL_AUTHORS = gql`
   query {
@@ -12,9 +13,25 @@ const ALL_AUTHORS = gql`
   }
 `;
 
+const EDIT_AUTHOR = gql`
+  mutation editAuthor($name: String!, $setBornTo: Int!) {
+    editAuthor(name: $name, setBornTo: $setBornTo) {
+      name
+      born
+    }
+  }
+`;
+
 /* eslint-disable react/prop-types */
 const Authors = ({ show }) => {
   const { loading, error, data } = useQuery(ALL_AUTHORS);
+
+  const [name, setName] = useState('');
+  const [born, setBorn] = useState('');
+
+  const [editAuthor] = useMutation(EDIT_AUTHOR, {
+    refetchQueries: [{ query: ALL_AUTHORS }],
+  });
 
   if (!show) {
     return null;
@@ -22,7 +39,16 @@ const Authors = ({ show }) => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  const authors = [];
+
+  const submit = async (event) => {
+    event.preventDefault();
+    await editAuthor({
+      variables: { name, setBornTo: parseInt(born) },
+    });
+
+    setName('');
+    setBorn('');
+  };
 
   return (
     <div>
@@ -43,6 +69,33 @@ const Authors = ({ show }) => {
           ))}
         </tbody>
       </table>
+
+      <h3>Set birthyear</h3>
+      <form onSubmit={submit}>
+        <div>
+          name
+          <select
+            value={name}
+            onChange={({ target }) => setName(target.value)}
+          >
+            <option value="">Select author</option>
+            {data.allAuthors.map((a) => (
+              <option key={a.name} value={a.name}>
+                {a.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          born
+          <input
+            type="number"
+            value={born}
+            onChange={({ target }) => setBorn(target.value)}
+          />
+        </div>
+        <button type="submit">update author</button>
+      </form>
     </div>
   );
 };
