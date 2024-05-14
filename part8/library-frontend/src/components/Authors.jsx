@@ -1,7 +1,9 @@
+// @ts-nocheck
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
+import Select from 'react-select';
 
 const ALL_AUTHORS = gql`
   query {
@@ -25,6 +27,7 @@ const EDIT_AUTHOR = gql`
 /* eslint-disable react/prop-types */
 const Authors = ({ show }) => {
   const { loading, error, data } = useQuery(ALL_AUTHORS);
+  const [selectedAuthor, setSelectedAuthor] = useState(null);
 
   const [name, setName] = useState('');
   const [born, setBorn] = useState('');
@@ -42,13 +45,24 @@ const Authors = ({ show }) => {
 
   const submit = async (event) => {
     event.preventDefault();
-    await editAuthor({
-      variables: { name, setBornTo: parseInt(born) },
-    });
 
-    setName('');
-    setBorn('');
+    if (selectedAuthor) {
+      await editAuthor({
+        variables: {
+          name: selectedAuthor.value,
+          setBornTo: parseInt(born),
+        },
+      });
+
+      setSelectedAuthor(null);
+      setBorn('');
+    }
   };
+
+  const authorOptions = data.allAuthors.map((author) => ({
+    value: author.name,
+    label: author.name,
+  }));
 
   return (
     <div>
@@ -74,17 +88,11 @@ const Authors = ({ show }) => {
       <form onSubmit={submit}>
         <div>
           name
-          <select
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          >
-            <option value="">Select author</option>
-            {data.allAuthors.map((a) => (
-              <option key={a.name} value={a.name}>
-                {a.name}
-              </option>
-            ))}
-          </select>
+          <Select
+            value={selectedAuthor}
+            onChange={setSelectedAuthor}
+            options={authorOptions}
+          />
         </div>
         <div>
           born
