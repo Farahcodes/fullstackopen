@@ -29,14 +29,6 @@ let authors = [
   },
 ];
 
-/*
-
- * English:
- * It might make more sense to associate a book with its author by storing the author's id in the context of the book instead of the author's name
- * However, for simplicity, we will store the author's name in connection with the book
-
- */
-
 let books = [
   {
     title: 'Clean Code',
@@ -91,42 +83,41 @@ let books = [
 ];
 
 const typeDefs = `
-type Book {
-  title: String!
-  published: Int!
-  author: String!
-  genres: [String!]!
-  id: ID!
+  type Book {
+    title: String!
+    published: Int!
+    author: String!
+    genres: [String!]!
+    id: ID!
   }
 
   type Author {
-  name: String!
-  id: ID!
-  born: Int
-  bookCount: Int
+    name: String!
+    id: ID!
+    born: Int
+    bookCount: Int
   }
 
   type Query {
-  bookCount: Int!
-  authorCount: Int!
-  allBooks(author: String,genre: String): [Book]
-  allAuthors: [Author!]!
+    bookCount: Int!
+    authorCount: Int!
+    allBooks(author: String, genre: String): [Book]
+    allAuthors: [Author!]!
   }
 
   type Mutation {
-  addBook(
-  title: String!
-  author: String!
-  published: Int!
-  genres: [String!]!
-  ): Book
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book
+
+    editAuthor(
+      name: String!
+      setBornTo: Int!
+    ): Author
   }
-
-  editAuthor(
-  name: String!
-  setBornTo: Int!
-  ): Author
-
 `;
 
 const resolvers = {
@@ -147,10 +138,11 @@ const resolvers = {
       }
       return filteredBooks;
     },
-
     allAuthors: () =>
       authors.map((author) => ({
         name: author.name,
+        id: author.id,
+        born: author.born,
         bookCount: books.filter((book) => book.author === author.name)
           .length,
       })),
@@ -158,7 +150,6 @@ const resolvers = {
   Mutation: {
     addBook: (_, args) => {
       const { title, author, published, genres } = args;
-      // Check if the author exists
       if (!authors.some((a) => a.name === author)) {
         authors.push({
           name: author,
@@ -167,7 +158,6 @@ const resolvers = {
           }-344d-11e9-a414-719c6709cf3e`,
         });
       }
-      // Add the book
       const newBook = {
         title,
         author,
@@ -178,7 +168,6 @@ const resolvers = {
       books.push(newBook);
       return newBook;
     },
-
     editAuthor: (_, { name, setBornTo }) => {
       const author = authors.find((author) => author.name === name);
       if (author) {
