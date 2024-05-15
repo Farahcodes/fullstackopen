@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "@apollo/server": "^4.10.4",
+    "dotenv": "^16.4.5",
     "graphql": "^16.8.1",
+    "mongoose": "^8.3.5",
     "mongoose-unique-validator": "^5.0.0"
   },
   "name": "-library-backend",
