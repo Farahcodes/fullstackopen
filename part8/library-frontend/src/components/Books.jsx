@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 
 const ALL_BOOKS = gql`
-  query {
-    allBooks {
+  query allBooks($genre: String) {
+    allBooks(genre: $genre) {
       title
       author {
         name
@@ -19,7 +19,9 @@ const ALL_BOOKS = gql`
 
 const Books = ({ show }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
-  const { loading, error, data } = useQuery(ALL_BOOKS);
+  const { loading, error, data } = useQuery(ALL_BOOKS, {
+    variables: { genre: selectedGenre },
+  });
 
   if (!show) {
     return null;
@@ -27,12 +29,6 @@ const Books = ({ show }) => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-
-  const books = selectedGenre
-    ? data.allBooks.filter((book) =>
-        book.genres.includes(selectedGenre)
-      )
-    : data.allBooks;
 
   const genres = [
     ...new Set(data.allBooks.flatMap((book) => book.genres)),
@@ -55,7 +51,7 @@ const Books = ({ show }) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.map((b) => (
+          {data.allBooks.map((b) => (
             <tr key={b.title}>
               <td>{b.title}</td>
               <td>{b.author.name}</td>
