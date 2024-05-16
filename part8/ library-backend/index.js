@@ -11,6 +11,7 @@ dotenv.config();
 
 const Book = require('./models/book');
 const Author = require('./models/author');
+const User = require('./models/user'); // Assuming you have a User model
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -42,11 +43,22 @@ const typeDefs = `
     id: ID!
   }
 
+  type User {
+    username: String!
+    friends: [User!]!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
+
   type Query {
     bookCount: Int!
     authorCount: Int!
     allBooks(author: String, genre: String): [Book]
     allAuthors: [Author!]!
+    me: User
   }
 
   type Mutation {
@@ -61,6 +73,16 @@ const typeDefs = `
       name: String!
       setBornTo: Int!
     ): Author
+
+    createUser(
+      username: String!
+      password: String!
+    ): User
+
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `;
 
@@ -68,11 +90,33 @@ const resolvers = {
   Query: {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: async () => Author.collection.countDocuments(),
-    allBooks: async () => {
-      return Book.find({}).populate('author');
+    allBooks: async (_, args) => {
+      const filter = {};
+      if (args.author) {
+        const author = await Author.findOne({ name: args.author });
+        if (author) {
+          filter.author = author._id;
+        }
+      }
+      if (args.genre) {
+        filter.genres = args.genre;
+      }
+      return Book.find(filter).populate('author');
     },
     allAuthors: async () => {
-      return Author.find({});
+      const authors = await Author.find({});
+      const authorsWithBookCount = await Promise.all(
+        authors.map(async (author) => {
+          const bookCount = await Book.countDocuments({
+            author: author._id,
+          });
+          return {
+            ...author.toObject(),
+            bookCount,
+          };
+        })
+      );
+      return authorsWithBookCount;
     },
   },
   Mutation: {
@@ -129,6 +173,38 @@ const resolvers = {
       }
 
       return null;
+    },
+    createUser: async (_, { username, password }) => {
+      const user = new User({ username, password });
+
+      try {
+        await user.save();
+        return user;
+      } catch (error) {
+        throw new GraphQLError('Creating user failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: username,
+            error,
+          },
+        });
+      }
+    },
+    login: async (_, { username, password }) => {
+      const user = await User.findOne({ username });
+
+      if (!user || password !== 'secret') {
+        throw new GraphQLError('wrong credentials', {
+          extensions: { code: 'BAD_USER_INPUT' },
+        });
+      }
+
+      const userForToken = {
+        username: user.username,
+        id: user._id,
+      };
+
+      return { value: jwt.sign(userForToken, JWT_SECRET) };
     },
   },
 };
