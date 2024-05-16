@@ -70,11 +70,9 @@ const App = () => {
         <Authors show={page === 'authors'} />
         <Books show={page === 'books'} />
         <NewBook show={page === 'add'} />
-        <LoginForm
-          show={page === 'login'}
-          setToken={setToken}
-          setPage={setPage}
-        />
+        {page === 'login' && (
+          <LoginForm setToken={setToken} setPage={setPage} />
+        )}
       </div>
     </ApolloProvider>
   );
