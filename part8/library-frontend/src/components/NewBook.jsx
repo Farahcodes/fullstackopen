@@ -1,8 +1,7 @@
 // @ts-nocheck
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 
 const ADD_BOOK = gql`
@@ -19,10 +18,10 @@ const ADD_BOOK = gql`
       genres: $genres
     ) {
       title
-      author
+      author {
+        name
+      }
       published
-      genres
-      id
     }
   }
 `;
@@ -31,45 +30,40 @@ const NewBook = ({ show }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [published, setPublished] = useState('');
-  const [genre, setGenre] = useState('');
   const [genres, setGenres] = useState([]);
+  const [genre, setGenre] = useState('');
 
   const [addBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [
-      {
-        query: gql`
-          query {
-            allAuthors {
-              name
-              id
-              born
-              bookCount
-            }
-          }
-        `,
-      },
-      {
-        query: gql`
-          query {
-            allBooks {
-              title
-              author
-              published
-            }
-          }
-        `,
-      },
-    ],
+    onError: (error) => {
+      console.error(error.graphQLErrors[0].message);
+    },
+    update: (cache, { data: { addBook } }) => {
+      cache.modify({
+        fields: {
+          allBooks(existingBooks = []) {
+            const newBookRef = cache.writeFragment({
+              data: addBook,
+              fragment: gql`
+                fragment NewBook on Book {
+                  title
+                  author {
+                    name
+                  }
+                  published
+                }
+              `,
+            });
+            return [...existingBooks, newBookRef];
+          },
+        },
+      });
+    },
   });
-
-  if (!show) {
-    return null;
-  }
 
   const submit = async (event) => {
     event.preventDefault();
 
-    await addBook({
+    addBook({
       variables: {
         title,
         author,
@@ -90,25 +84,29 @@ const NewBook = ({ show }) => {
     setGenre('');
   };
 
+  if (!show) {
+    return null;
+  }
+
   return (
     <div>
       <form onSubmit={submit}>
         <div>
-          title
+          title{' '}
           <input
             value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
-          author
+          author{' '}
           <input
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
-          published
+          published{' '}
           <input
             type="number"
             value={published}
