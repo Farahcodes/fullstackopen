@@ -19,9 +19,14 @@ const ALL_BOOKS = gql`
 
 const Books = ({ show }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
-  const { loading, error, data } = useQuery(ALL_BOOKS, {
+  const { loading, error, data, refetch } = useQuery(ALL_BOOKS, {
     variables: { genre: selectedGenre },
   });
+
+  const handleGenreClick = (genre) => {
+    setSelectedGenre(genre);
+    refetch({ genre });
+  };
 
   if (!show) {
     return null;
@@ -63,11 +68,11 @@ const Books = ({ show }) => {
 
       <div>
         {genres.map((genre) => (
-          <button key={genre} onClick={() => setSelectedGenre(genre)}>
+          <button key={genre} onClick={() => handleGenreClick(genre)}>
             {genre}
           </button>
         ))}
-        <button onClick={() => setSelectedGenre(null)}>
+        <button onClick={() => handleGenreClick(null)}>
           all genres
         </button>
       </div>

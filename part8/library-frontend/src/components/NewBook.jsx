@@ -26,6 +26,19 @@ const ADD_BOOK = gql`
   }
 `;
 
+const ALL_BOOKS = gql`
+  query allBooks($genre: String) {
+    allBooks(genre: $genre) {
+      title
+      author {
+        name
+      }
+      published
+      genres
+    }
+  }
+`;
+
 const NewBook = ({ show }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -34,6 +47,7 @@ const NewBook = ({ show }) => {
   const [genre, setGenre] = useState('');
 
   const [addBook] = useMutation(ADD_BOOK, {
+    refetchQueries: [{ query: ALL_BOOKS }],
     onError: (error) => {
       console.error(error.graphQLErrors[0].message);
     },
