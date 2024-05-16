@@ -11,7 +11,7 @@ dotenv.config();
 
 const Book = require('./models/book');
 const Author = require('./models/author');
-const User = require('./models/user'); // Assuming you have a User model
+const User = require('./models/user');
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -45,6 +45,7 @@ const typeDefs = `
 
   type User {
     username: String!
+    favoriteGenre: String!
     friends: [User!]!
     id: ID!
   }
@@ -76,6 +77,7 @@ const typeDefs = `
 
     createUser(
       username: String!
+      favoriteGenre: String!
       password: String!
     ): User
 
@@ -118,9 +120,18 @@ const resolvers = {
       );
       return authorsWithBookCount;
     },
+    me: async (_, __, { currentUser }) => {
+      return currentUser;
+    },
   },
   Mutation: {
-    addBook: async (_, args) => {
+    addBook: async (_, args, { currentUser }) => {
+      if (!currentUser) {
+        throw new GraphQLError('Not authenticated', {
+          extensions: { code: 'UNAUTHENTICATED' },
+        });
+      }
+
       const existingAuthor = await Author.findOne({
         name: args.author,
       });
@@ -128,7 +139,17 @@ const resolvers = {
 
       if (!existingAuthor) {
         author = new Author({ name: args.author });
-        await author.save();
+        try {
+          await author.save();
+        } catch (error) {
+          throw new GraphQLError('Saving author failed', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.author,
+              error,
+            },
+          });
+        }
       } else {
         author = existingAuthor;
       }
@@ -153,7 +174,13 @@ const resolvers = {
         });
       }
     },
-    editAuthor: async (_, { name, setBornTo }) => {
+    editAuthor: async (_, { name, setBornTo }, { currentUser }) => {
+      if (!currentUser) {
+        throw new GraphQLError('Not authenticated', {
+          extensions: { code: 'UNAUTHENTICATED' },
+        });
+      }
+
       const author = await Author.findOne({ name });
 
       if (author) {
@@ -174,8 +201,8 @@ const resolvers = {
 
       return null;
     },
-    createUser: async (_, { username, password }) => {
-      const user = new User({ username, password });
+    createUser: async (_, { username, favoriteGenre, password }) => {
+      const user = new User({ username, favoriteGenre, password });
 
       try {
         await user.save();
@@ -194,7 +221,7 @@ const resolvers = {
       const user = await User.findOne({ username });
 
       if (!user || password !== 'secret') {
-        throw new GraphQLError('wrong credentials', {
+        throw new GraphQLError('Wrong credentials', {
           extensions: { code: 'BAD_USER_INPUT' },
         });
       }

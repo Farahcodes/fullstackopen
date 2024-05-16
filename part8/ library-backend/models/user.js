@@ -11,6 +11,10 @@ const schema = new mongoose.Schema({
   favoriteGenre: {
     type: String,
   },
+  password: {
+    type: String,
+    required: true,
+  },
 });
 
 schema.plugin(uniqueValidator);
