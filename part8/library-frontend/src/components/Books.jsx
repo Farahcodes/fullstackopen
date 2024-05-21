@@ -1,21 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 
-import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import React, { useState } from "react";
+import { useQuery, gql } from "@apollo/client";
 
-const ALL_BOOKS = gql`
-  query allBooks($genre: String) {
-    allBooks(genre: $genre) {
-      title
-      author {
-        name
-      }
-      published
-      genres
-    }
-  }
-`;
+// queries
+import { ALL_BOOKS } from "../queries";
 
 const Books = ({ show }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);

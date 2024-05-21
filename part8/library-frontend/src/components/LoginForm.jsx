@@ -1,19 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import React, { useState } from "react";
+import { useMutation, gql } from "@apollo/client";
 
-const LOGIN = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      value
-    }
-  }
-`;
+// queries
+import { LOGIN } from "../queries";
 
 const LoginForm = ({ setToken, setPage }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [login, { data }] = useMutation(LOGIN, {
     onError: (error) => {
@@ -29,8 +24,8 @@ const LoginForm = ({ setToken, setPage }) => {
     if (result.data) {
       const token = result.data.login.value;
       setToken(token);
-      localStorage.setItem('user-token', token);
-      setPage('books');
+      localStorage.setItem("user-token", token);
+      setPage("books");
     }
   };
 
@@ -38,14 +33,14 @@ const LoginForm = ({ setToken, setPage }) => {
     <div>
       <form onSubmit={submit}>
         <div>
-          username{' '}
+          username{" "}
           <input
             value={username}
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
-          password{' '}
+          password{" "}
           <input
             type="password"
             value={password}

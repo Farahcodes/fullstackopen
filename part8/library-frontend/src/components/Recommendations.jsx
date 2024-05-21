@@ -1,28 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import React from "react";
+import { useQuery, gql } from "@apollo/client";
 
-const ME = gql`
-  query {
-    me {
-      favoriteGenre
-    }
-  }
-`;
-
-const ALL_BOOKS = gql`
-  query allBooks($genre: String) {
-    allBooks(genre: $genre) {
-      title
-      author {
-        name
-      }
-      published
-      genres
-    }
-  }
-`;
+// queries
+import { ME, ALL_BOOKS } from "../queries";
 
 const Recommendations = ({ show }) => {
   const {

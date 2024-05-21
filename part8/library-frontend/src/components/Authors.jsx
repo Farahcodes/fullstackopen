@@ -1,36 +1,20 @@
 // @ts-nocheck
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import { useState } from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import Select from 'react-select';
+import React from "react";
+import { useState } from "react";
+import { useQuery, useMutation, gql } from "@apollo/client";
+import Select from "react-select";
 
-const ALL_AUTHORS = gql`
-  query {
-    allAuthors {
-      name
-      born
-      bookCount
-    }
-  }
-`;
-
-const EDIT_AUTHOR = gql`
-  mutation editAuthor($name: String!, $setBornTo: Int!) {
-    editAuthor(name: $name, setBornTo: $setBornTo) {
-      name
-      born
-    }
-  }
-`;
+// queries
+import { ALL_AUTHORS, EDIT_AUTHOR } from "../queries";
 
 /* eslint-disable react/prop-types */
 const Authors = ({ show }) => {
   const { loading, error, data } = useQuery(ALL_AUTHORS);
   const [selectedAuthor, setSelectedAuthor] = useState(null);
 
-  const [name, setName] = useState('');
-  const [born, setBorn] = useState('');
+  const [name, setName] = useState("");
+  const [born, setBorn] = useState("");
 
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
@@ -55,7 +39,7 @@ const Authors = ({ show }) => {
       });
 
       setSelectedAuthor(null);
-      setBorn('');
+      setBorn("");
     }
   };
 
