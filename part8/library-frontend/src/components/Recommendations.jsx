@@ -1,54 +1,46 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { ALL_BOOKS, ME } from "../queries";
+import BookTable from "./BookTable";
 
-// queries
-import { ME, ALL_BOOKS } from "../queries";
-
-const Recommendations = ({ show }) => {
+const Recommendations = () => {
   const {
+    data: meData,
     loading: meLoading,
     error: meError,
-    data: meData,
-  } = useQuery(ME);
-  const favoriteGenre = meData?.me?.favoriteGenre;
-
-  const { loading, error, data } = useQuery(ALL_BOOKS, {
-    variables: { genre: favoriteGenre },
-    skip: !favoriteGenre,
+  } = useQuery(ME, {
+    fetchPolicy: "cache-and-network",
   });
 
-  if (!show) {
-    return null;
+  const genre = meData?.me?.favoriteGenre;
+
+  const {
+    data: booksData,
+    loading: booksLoading,
+    error: booksError,
+  } = useQuery(ALL_BOOKS, {
+    variables: { genre },
+    skip: !genre,
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (booksLoading || meLoading) {
+    return <div>loading...</div>;
   }
 
-  if (meLoading || loading) return <p>Loading...</p>;
-  if (meError) return <p>Error: {meError.message}</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (booksError || meError) {
+    return <div>Error: Could not load books</div>;
+  }
 
   return (
     <div>
-      <h2>recommendations</h2>
-      <p>
-        books in your favorite genre <strong>{favoriteGenre}</strong>
-      </p>
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
-          {data.allBooks.map((b) => (
-            <tr key={b.title}>
-              <td>{b.title}</td>
-              <td>{b.author.name}</td>
-              <td>{b.published}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h2>Recommendations</h2>
+      <div>
+        Your favorite genre: <strong>{genre}</strong>
+      </div>
+      <BookTable books={booksData?.allBooks} />
     </div>
   );
 };

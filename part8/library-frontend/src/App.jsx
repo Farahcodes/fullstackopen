@@ -1,85 +1,89 @@
 // @ts-nocheck
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-
-// components
-import Authors from './components/Authors';
-import Books from './components/Books';
-import NewBook from './components/NewBook';
-import LoginForm from './components/LoginForm';
-import Recommendations from './components/Recommendations';
-
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000',
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('user-token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+import React, { useState } from "react";
+import { useApolloClient, useSubscription } from "@apollo/client";
+import Authors from "./components/Authors";
+import Books from "./components/Books";
+import NewBook from "./components/NewBook";
+import LoginForm from "./components/LoginForm";
+import Recommendations from "./components/Recommendations";
+import { BOOK_ADDED, ALL_BOOKS } from "./queries";
 
 const App = () => {
-  const [page, setPage] = useState('authors');
-  const [token, setToken] = useState(null);
+  const [page, setPage] = useState("authors");
+  const [token, setToken] = useState(
+    window.localStorage.getItem("library-user-token")
+  );
+  const client = useApolloClient();
 
-  useEffect(() => {
-    const token = localStorage.getItem('user-token');
-    if (token) {
-      setToken(token);
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) =>
+      set.map((book) => book.id).includes(object.id);
+
+    try {
+      const dataInStore = client.readQuery({ query: ALL_BOOKS });
+
+      if (!includedIn(dataInStore.allBooks, addedBook)) {
+        client.writeQuery({
+          query: ALL_BOOKS,
+          data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
-  }, []);
+  };
 
-  const logout = () => {
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded.title;
+      window.alert(`Added book: ${addedBook}`);
+      updateCacheWith(addedBook);
+    },
+  });
+
+  const handleLogout = () => {
+    setPage("authors");
     setToken(null);
-    localStorage.removeItem('user-token');
-    setPage('authors');
+    window.localStorage.clear();
+    client.resetStore();
   };
 
   return (
-    <ApolloProvider client={client}>
+    <div>
       <div>
-        <div>
-          <button onClick={() => setPage('authors')}>authors</button>
-          <button onClick={() => setPage('books')}>books</button>
-          {token ? (
-            <>
-              <button onClick={() => setPage('add')}>add book</button>
-              <button onClick={() => setPage('recommend')}>
-                recommend
-              </button>
-              <button onClick={logout}>logout</button>
-            </>
-          ) : (
-            <button onClick={() => setPage('login')}>login</button>
-          )}
-        </div>
-
-        <Authors show={page === 'authors'} />
-        <Books show={page === 'books'} />
-        <NewBook show={page === 'add'} />
-        <Recommendations show={page === 'recommend'} />
-        {page === 'login' && (
-          <LoginForm setToken={setToken} setPage={setPage} />
+        <button onClick={() => setPage("authors")}>Authors</button>
+        <button onClick={() => setPage("books")}>Books</button>
+        <button onClick={() => setPage("add")} disabled={!token}>
+          Add Book
+        </button>
+        <button
+          onClick={() => setPage("recommendations")}
+          disabled={!token}
+        >
+          Recommendations
+        </button>
+        {token ? (
+          <button onClick={handleLogout}>Log Out</button>
+        ) : (
+          <button onClick={() => setPage("login")}>Log In</button>
         )}
       </div>
-    </ApolloProvider>
+
+      {page === "authors" && <Authors token={token} />}
+
+      {page === "books" && <Books />}
+
+      {page === "add" && (
+        <NewBook updateCacheWith={updateCacheWith} />
+      )}
+
+      {page === "recommendations" && <Recommendations />}
+
+      {page === "login" && (
+        <LoginForm setToken={setToken} setPage={setPage} />
+      )}
+    </div>
   );
 };
 

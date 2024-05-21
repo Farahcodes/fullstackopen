@@ -1,53 +1,62 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
-
-// queries
-import { LOGIN } from "../queries";
+import React, { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import { LOG_IN } from "../queries";
 
 const LoginForm = ({ setToken, setPage }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login, { data }] = useMutation(LOGIN, {
+  const [login, result] = useMutation(LOG_IN, {
     onError: (error) => {
-      console.error(error.graphQLErrors[0].message);
+      console.error(error);
     },
   });
+
+  useEffect(() => {
+    if (result.data) {
+      const token = result.data.login.value;
+      setToken(token);
+      window.localStorage.setItem("library-user-token", token);
+      setPage("authors");
+    }
+  }, [result.data]);
 
   const submit = async (event) => {
     event.preventDefault();
 
-    const result = await login({ variables: { username, password } });
+    login({
+      variables: {
+        username,
+        password,
+      },
+    });
 
-    if (result.data) {
-      const token = result.data.login.value;
-      setToken(token);
-      localStorage.setItem("user-token", token);
-      setPage("books");
-    }
+    setUsername("");
+    setPassword("");
   };
 
   return (
     <div>
       <form onSubmit={submit}>
         <div>
-          username{" "}
+          username
           <input
+            type="text"
             value={username}
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
-          password{" "}
+          password
           <input
             type="password"
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <button type="submit">Log In</button>
       </form>
     </div>
   );

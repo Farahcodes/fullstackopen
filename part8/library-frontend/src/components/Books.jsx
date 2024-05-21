@@ -2,70 +2,60 @@
 /* eslint-disable no-unused-vars */
 
 import React, { useState } from "react";
-import { useQuery, gql } from "@apollo/client";
-
-// queries
+import { useQuery } from "@apollo/client";
 import { ALL_BOOKS } from "../queries";
+import BookTable from "./BookTable";
 
-const Books = ({ show }) => {
-  const [selectedGenre, setSelectedGenre] = useState(null);
-  const { loading, error, data, refetch } = useQuery(ALL_BOOKS, {
-    variables: { genre: selectedGenre },
-  });
+const Books = () => {
+  const [filter, setFilter] = useState("all");
 
-  const handleGenreClick = (genre) => {
-    setSelectedGenre(genre);
-    refetch({ genre });
-  };
-
-  if (!show) {
-    return null;
-  }
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const {
+    data: booksData,
+    loading: booksLoading,
+    error: booksError,
+  } = useQuery(ALL_BOOKS);
 
   const genres = [
-    ...new Set(data.allBooks.flatMap((book) => book.genres)),
+    ...new Set(booksData?.allBooks.flatMap((book) => book.genres)),
   ];
+  const options = ["all"].concat(genres);
+
+  const {
+    data: filteredBooksData,
+    loading: filteredBooksLoading,
+    error: filteredBooksError,
+  } = useQuery(ALL_BOOKS, {
+    variables: { genre: filter !== "all" ? filter : null },
+    fetchPolicy: "cache-and-network",
+  });
+
+  const books = filteredBooksData?.allBooks;
+
+  if (booksLoading || filteredBooksLoading) {
+    return <div>loading...</div>;
+  }
+
+  if (booksError || filteredBooksError) {
+    return <div>Error: Could not load books</div>;
+  }
 
   return (
     <div>
-      <h2>books</h2>
-
-      {selectedGenre && (
-        <p>
-          in genre <strong>{selectedGenre}</strong>
-        </p>
-      )}
-
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
-          {data.allBooks.map((b) => (
-            <tr key={b.title}>
-              <td>{b.title}</td>
-              <td>{b.author.name}</td>
-              <td>{b.published}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div>
-        {genres.map((genre) => (
-          <button key={genre} onClick={() => handleGenreClick(genre)}>
-            {genre}
-          </button>
-        ))}
-        <button onClick={() => handleGenreClick(null)}>
-          all genres
-        </button>
-      </div>
+      <h2>Books</h2>
+      <div>show:</div>
+      <select
+        value={filter}
+        onChange={({ target }) => setFilter(target.value)}
+      >
+        {options.map((option) => {
+          return (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+      <BookTable books={books} />
     </div>
   );
 };

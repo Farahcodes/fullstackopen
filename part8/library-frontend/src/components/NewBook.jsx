@@ -2,61 +2,43 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { ADD_BOOK, ALL_AUTHORS } from "../queries";
 
-// queries
-import { ALL_BOOKS, ADD_BOOK } from "../queries";
-
-const NewBook = ({ show }) => {
+const NewBook = ({ updateCacheWith }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [published, setPublished] = useState("");
-  const [genres, setGenres] = useState([]);
   const [genre, setGenre] = useState("");
+  const [genres, setGenres] = useState([]);
 
   const [addBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }],
-    onError: (error) => {
-      console.error(error.graphQLErrors[0].message);
+    refetchQueries: [{ query: ALL_AUTHORS }],
+    update: (store, response) => {
+      updateCacheWith(response.data.addBook);
     },
-    update: (cache, { data: { addBook } }) => {
-      cache.modify({
-        fields: {
-          allBooks(existingBooks = []) {
-            const newBookRef = cache.writeFragment({
-              data: addBook,
-              fragment: gql`
-                fragment NewBook on Book {
-                  title
-                  author {
-                    name
-                  }
-                  published
-                }
-              `,
-            });
-            return [...existingBooks, newBookRef];
-          },
-        },
-      });
+    onError: (error) => {
+      console.error(error);
     },
   });
 
   const submit = async (event) => {
     event.preventDefault();
 
+    const publishedInt = Number.parseInt(published, 10);
+
     addBook({
       variables: {
         title,
         author,
-        published: parseInt(published),
+        published: publishedInt,
         genres,
       },
     });
 
     setTitle("");
-    setAuthor("");
     setPublished("");
+    setAuthor("");
     setGenres([]);
     setGenre("");
   };
@@ -66,29 +48,25 @@ const NewBook = ({ show }) => {
     setGenre("");
   };
 
-  if (!show) {
-    return null;
-  }
-
   return (
     <div>
       <form onSubmit={submit}>
         <div>
-          title{" "}
+          Title
           <input
             value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
-          author{" "}
+          Author
           <input
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
-          published{" "}
+          Published
           <input
             type="number"
             value={published}
@@ -101,11 +79,11 @@ const NewBook = ({ show }) => {
             onChange={({ target }) => setGenre(target.value)}
           />
           <button onClick={addGenre} type="button">
-            add genre
+            Add Genre
           </button>
         </div>
-        <div>genres: {genres.join(" ")}</div>
-        <button type="submit">create book</button>
+        <div>Genres: {genres.join(" ")}</div>
+        <button type="submit">Create Book</button>
       </form>
     </div>
   );
