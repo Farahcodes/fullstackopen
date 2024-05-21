@@ -128,4 +128,21 @@ Topics:
 * [Styled-Components](https://styled-components.com/)
 * [Webpack](https://webpack.js.org/)
 
+### Part 8- [GraphQL](https://fullstackopen.com/en/part8)
+
+Topics:
+
+* [GraphQL](https://graphql.org/)
+* [Apollo](https://www.apollographql.com/)
+
+Projects:
+
+* [Library Front End](https://github.com/Farahcodes/fullstackopen/tree/master/part8/library-frontend) / [Library Back End](https://github.com/Farahcodes/fullstackopen/tree/master/part8/%20library-backend) - A full-stack application that offers comprehensive book and author information, enabling users to add new books to the database. It leverages Apollo Server on the backend to manage GraphQL queries and Apollo Client on the frontend for sending queries and caching results. The app utilizes subscriptions to keep the frontend in sync with updates from the MongoDB database.
+
+
+
+
+
+
+
 
