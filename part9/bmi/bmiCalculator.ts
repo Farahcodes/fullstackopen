@@ -18,6 +18,12 @@ const calculateBmi = (heightCm: number, weightKg: number): BmiResult => {
   }
 };
 
-console.log(calculateBmi(180, 74));
-export { calculateBmi };
+if (process.argv.length !== 4) {
+  console.log("Please provide the height (in cm) and weight (in kg) as command line arguments.");
+} else {
+  const height = Number(process.argv[2]);
+  const weight = Number(process.argv[3]);
+  console.log(calculateBmi(height, weight));
+}
 
+export { calculateBmi };
