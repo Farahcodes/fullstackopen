@@ -45,7 +45,7 @@ if (process.argv.length < 4) {
 }
 
 const dailyExerciseHours = process.argv.slice(2).map(Number);
-const target = dailyExerciseHours.shift();
+const target = dailyExerciseHours.shift() || 0;
 
 console.log(calculateExercises(dailyExerciseHours, target));
 
