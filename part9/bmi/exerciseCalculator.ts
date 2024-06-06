@@ -8,6 +8,11 @@ interface ExerciseResult {
   average: number;
 }
 
+interface ExerciseRequest {
+    daily_exercises: number[];
+    target: number;
+}
+
 function calculateExercises(dailyExerciseHours: number[], target: number): ExerciseResult {
   const periodLength = dailyExerciseHours.length;
   const trainingDays = dailyExerciseHours.filter(day => day > 0).length;
@@ -49,4 +54,4 @@ const target = dailyExerciseHours.shift() || 0;
 
 console.log(calculateExercises(dailyExerciseHours, target));
 
-export { calculateExercises, ExerciseResult };
+export { calculateExercises, ExerciseResult, ExerciseRequest};
