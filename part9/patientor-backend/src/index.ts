@@ -3,10 +3,13 @@ import express from 'express';
 import diagnosisRouter from './routes/diagnoses';
 import patientRouter from './routes/patients';
 
+
+const cors = require('cors');
 const app = express();
 app.use(express.json());
+app.use(cors());
 
-const PORT = 3000;
+const PORT = 3001;
 
 app.get('/api/ping', (_req, res) => {
   console.log('someone pinged here');
