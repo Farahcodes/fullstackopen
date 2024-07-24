@@ -17,3 +17,5 @@ export interface Patient {
 // Patient interface without ssn
 export type PublicPatient = Omit<Patient, 'ssn'>;
 
+export type NewPatient = Omit<Patient, 'id'>;
+

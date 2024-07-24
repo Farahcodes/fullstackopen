@@ -8,4 +8,10 @@ router.get('/', (_req, res) => {
   res.send(patientService.getPublicPatients());
 });
 
+router.post('/', (_req, res) => {
+  res.send('Saving a patient!');
+});
+
+
+
 export default router;
