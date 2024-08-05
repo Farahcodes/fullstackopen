@@ -1,6 +1,18 @@
-const App = () => {
+import React from 'react';
+
+// componentscd
+import Header from './components/Header';
+import Content from './components/Content';
+import Total from './components/Total';
+
+interface CoursePart {
+  name: string;
+  exerciseCount: number;
+}
+
+const App: React.FC = () => {
   const courseName = "Half Stack application development";
-  const courseParts = [
+  const courseParts: CoursePart[] = [
     {
       name: "Fundamentals",
       exerciseCount: 10
@@ -19,19 +31,9 @@ const App = () => {
 
   return (
     <div>
-      <h1>{courseName}</h1>
-      <p>
-        {courseParts[0].name} {courseParts[0].exerciseCount}
-      </p>
-      <p>
-        {courseParts[1].name} {courseParts[1].exerciseCount}
-      </p>
-      <p>
-        {courseParts[2].name} {courseParts[2].exerciseCount}
-      </p>
-      <p>
-        Number of exercises {totalExercises}
-      </p>
+      <Header name={courseName} />
+      <Content parts={courseParts} />
+      <Total total={totalExercises} />
     </div>
   );
 };
