@@ -28,8 +28,12 @@ interface CoursePartBackground extends CoursePartDescription {
   backgroundMaterial: string;
   kind: "background";
 }
+interface CoursePartSpecial extends CoursePartDescription {
+  requirements: string[];
+  kind: "special";
+}
 
-type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground;
+export type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground | CoursePartSpecial;
 
 const App: React.FC = () => {
   const courseName = "Half Stack application development";
@@ -64,7 +68,14 @@ const App: React.FC = () => {
     exerciseCount: 10,
     description: "a hard part",
     kind: "basic",
-  },
+    },
+  {
+    name: "Backend development",
+    exerciseCount: 21,
+    description: "Typing the backend",
+    requirements: ["nodejs", "jest"],
+    kind: "special"
+  }
   ];
 
   const totalExercises = courseParts.reduce((sum, part) => sum + part.exerciseCount, 0);
