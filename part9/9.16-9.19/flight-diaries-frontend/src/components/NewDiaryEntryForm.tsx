@@ -25,7 +25,9 @@ const NewDiaryEntryForm: React.FC<NewDiaryEntryFormProps> = ({ onAddEntry }) => 
     };
 
     try {
-      const response = await axios.post<DiaryEntry>('http://localhost:3000/api/diaries', newEntry);
+      const response = await axios.post<DiaryEntry>('http://localhost:3000/api/diaries', newEntry)
+
+
       onAddEntry(response.data);
       // Clear the form
       setNewDate('');
@@ -33,7 +35,15 @@ const NewDiaryEntryForm: React.FC<NewDiaryEntryFormProps> = ({ onAddEntry }) => 
       setNewVisibility('');
       setNewComment('');
     } catch (error) {
-      console.error('Error adding diary entry:', error);
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          alert(`Failed to add diary entry: ${error.response.data}`);
+        } else {
+          alert('Network error. Please try again later.');
+        }
+      } else {
+        alert('An unexpected error occurred.');
+      }
     }
   };
 
