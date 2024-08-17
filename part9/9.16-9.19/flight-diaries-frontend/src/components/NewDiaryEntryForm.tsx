@@ -1,8 +1,8 @@
-// src/components/NewDiaryEntryForm.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { DiaryEntry,Weather,Visibility,NewDiaryEntry } from '../types';
+// types
+import { DiaryEntry, Weather, Visibility, NewDiaryEntry } from '../types';
 
 interface NewDiaryEntryFormProps {
   onAddEntry: (newEntry: NewDiaryEntry) => void;
@@ -10,29 +10,27 @@ interface NewDiaryEntryFormProps {
 
 const NewDiaryEntryForm: React.FC<NewDiaryEntryFormProps> = ({ onAddEntry }) => {
   const [newDate, setNewDate] = useState('');
-  const [newWeather, setNewWeather] = useState('');
-  const [newVisibility, setNewVisibility] = useState('');
+  const [newWeather, setNewWeather] = useState<Weather>(Weather.Sunny);
+  const [newVisibility, setNewVisibility] = useState<Visibility>(Visibility.Great);
   const [newComment, setNewComment] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newEntry: Omit<DiaryEntry, 'id'> = {
+    const newEntry: NewDiaryEntry = {
       date: newDate,
-      weather: newWeather as Weather,
-      visibility: newVisibility as Visibility,
+      weather: newWeather,
+      visibility: newVisibility,
       comment: newComment,
     };
 
     try {
-      const response = await axios.post<DiaryEntry>('http://localhost:3000/api/diaries', newEntry)
-
-
+      const response = await axios.post<DiaryEntry>('http://localhost:3000/api/diaries', newEntry);
       onAddEntry(response.data);
       // Clear the form
       setNewDate('');
-      setNewWeather('');
-      setNewVisibility('');
+      setNewWeather(Weather.Sunny); // Reset to default
+      setNewVisibility(Visibility.Great); // Reset to default
       setNewComment('');
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -53,17 +51,42 @@ const NewDiaryEntryForm: React.FC<NewDiaryEntryFormProps> = ({ onAddEntry }) => 
         <label htmlFor="date">Date:</label>
         <input type="date" id="date" value={newDate} onChange={e => setNewDate(e.target.value)} required />
       </div>
+
+      {/* Weather radio buttons */}
       <div>
-        <label htmlFor="weather">Weather:</label>
-        <input type="text" id="weather" value={newWeather} onChange={e => setNewWeather(e.target.value)} required />
+        <label>Weather:</label>
+        {Object.values(Weather).map((weather) => (
+          <label key={weather}>
+            <input
+              type="radio"
+              value={weather}
+              checked={newWeather === weather}
+              onChange={() => setNewWeather(weather)}
+            />
+            {weather}
+          </label>
+        ))}
       </div>
+
+      {/* Visibility radio buttons */}
       <div>
-        <label htmlFor="visibility">Visibility:</label>
-        <input type="text" id="visibility" value={newVisibility} onChange={e => setNewVisibility(e.target.value)} required />
+        <label>Visibility:</label>
+        {Object.values(Visibility).map((visibility) => (
+          <label key={visibility}>
+            <input
+              type="radio"
+              value={visibility}
+              checked={newVisibility === visibility}
+              onChange={() => setNewVisibility(visibility)}
+            />
+            {visibility}
+          </label>
+        ))}
       </div>
+
       <div>
         <label htmlFor="comment">Comment:</label>
-        <textarea id="comment" value={newComment} onChange={e => setNewComment(e.target.value)} />
+        <textarea id="comment" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
       </div>
       <button type="submit">Add Entry</button>
     </form>
