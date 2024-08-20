@@ -13,6 +13,8 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
 
 const PatientDetailsPage = () => {
   const { id } = useParams<{ id: string }>(); // Extract patient ID from URL
@@ -39,7 +41,14 @@ const PatientDetailsPage = () => {
 
   return (
     <Container>
-      <Typography variant="h4">{patient.name}</Typography>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Typography variant="h4">{patient.name}</Typography>
+        {patient.gender === "male" ? (
+          <MaleIcon />
+        ) : (
+          <FemaleIcon />
+        )}
+      </div>
       <List>
         <ListItem>
           <ListItemText primary="SSN" secondary={patient.ssn} />
@@ -59,11 +68,8 @@ const PatientDetailsPage = () => {
             secondary={patient.dateOfBirth}
           />
         </ListItem>
-
       </List>
-
       <Typography variant="h5">Entries:</Typography>
-
     </Container>
   );
 };
