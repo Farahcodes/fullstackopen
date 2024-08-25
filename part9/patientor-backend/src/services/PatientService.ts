@@ -1,6 +1,6 @@
 import { v1 as uuid } from 'uuid'
 
-import patients from "../../data/patients";
+import patients from "../../data/patients-full";
 import { PublicPatient, Patient, NewPatient } from "../types";
 
 const getPatients = (): Patient[] => {
@@ -22,6 +22,13 @@ const addPatient = (patient: NewPatient): Patient => {
     id: uuid(),
     ...patient
   }
+    // Basic type check for entries
+  patient.entries.forEach((entry) => {
+    if (!["HealthCheck", "Hospital", "OccupationalHealthcare"].includes(entry.type)) {
+      throw new Error(`Invalid entry type: ${entry.type}`);
+    }
+  });
+
   patients.push(newPatient);
   return newPatient;
 }

@@ -12,6 +12,23 @@ export enum Gender{
 }
 
 export interface Entry {
+  id: string;
+  date: string;
+  type: string;
+  specialist: string;
+  diagnosisCodes?: string[];
+  description: string;
+  discharge?: {
+    date: string;
+    criteria: string;
+  };
+  sickLeave?: {
+    startDate: string;
+    endDate: string;
+  };
+  healthCheckRating?: number;
+  employerName?: string;
+  [key: string]: any;
 }
 export interface Patient {
   id: string;

@@ -33,6 +33,8 @@ router.get('/:id', (req, res) => {
     res.status(404).send('Patient not found');
   }
 }
+
+
 );
 
 export default router;
