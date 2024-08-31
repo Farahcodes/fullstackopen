@@ -14,30 +14,45 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 
 import { apiBaseUrl } from "../../constants";
-import { Patient, Entry, HealthCheckEntry, OccupationalHealthcareEntry, HospitalEntry, HealthCheckRating } from "../../types";
+import { Patient, Entry, HealthCheckEntry, OccupationalHealthcareEntry, HospitalEntry, Diagnosis } from "../../types";
 
 const PatientDetailsPage = () => {
   const { id } = useParams<{ id: string }>(); // Extract patient ID from URL
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[] | null>(null);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
       try {
-        const response = await axios.get<Patient>(
-          `${apiBaseUrl}/patients/${id}`
-        );
+        const response = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
         setPatient(response.data);
       } catch (error) {
         console.error("Error fetching patient details:", error);
       }
     };
 
+    const fetchDiagnoses = async () => {
+      try {
+        const response = await axios.get<Diagnosis[]>(`${apiBaseUrl}/diagnoses`);
+        setDiagnoses(response.data);
+      } catch (error) {
+        console.error("Error fetching diagnoses:", error);
+      }
+    };
+
     void fetchPatientDetails();
+    void fetchDiagnoses();
   }, [id]);
 
-  if (!patient) {
+  if (!patient || !diagnoses) {
     return <div>Loading patient details...</div>;
   }
+
+  // Function to get the diagnosis name by its code
+  const getDiagnosisName = (code: string): string => {
+    const diagnosis = diagnoses.find(d => d.code === code);
+    return diagnosis ? `${code} ${diagnosis.name}` : code;
+  };
 
   // Function to render specific entry type
   const renderEntryDetails = (entry: Entry) => {
@@ -60,7 +75,13 @@ const PatientDetailsPage = () => {
         <Typography>Date: {entry.date}</Typography>
         <Typography>Specialist: {entry.specialist}</Typography>
         <Typography>Description: {entry.description}</Typography>
-        <Typography>Health Rating: {HealthCheckRating[entry.healthCheckRating]}</Typography>
+        {entry.diagnosisCodes && (
+          <ul>
+            {entry.diagnosisCodes.map(code => (
+              <li key={code}>{getDiagnosisName(code)}</li>
+            ))}
+          </ul>
+        )}
       </CardContent>
     </Card>
   );
@@ -73,6 +94,13 @@ const PatientDetailsPage = () => {
         <Typography>Specialist: {entry.specialist}</Typography>
         <Typography>Employer: {entry.employerName}</Typography>
         <Typography>Description: {entry.description}</Typography>
+        {entry.diagnosisCodes && (
+          <ul>
+            {entry.diagnosisCodes.map(code => (
+              <li key={code}>{getDiagnosisName(code)}</li>
+            ))}
+          </ul>
+        )}
         {entry.sickLeave && (
           <Typography>Sick Leave: {entry.sickLeave.startDate} - {entry.sickLeave.endDate}</Typography>
         )}
@@ -87,6 +115,13 @@ const PatientDetailsPage = () => {
         <Typography>Date: {entry.date}</Typography>
         <Typography>Specialist: {entry.specialist}</Typography>
         <Typography>Description: {entry.description}</Typography>
+        {entry.diagnosisCodes && (
+          <ul>
+            {entry.diagnosisCodes.map(code => (
+              <li key={code}>{getDiagnosisName(code)}</li>
+            ))}
+          </ul>
+        )}
         <Typography>Discharge Date: {entry.discharge.date}</Typography>
         <Typography>Discharge Criteria: {entry.discharge.criteria}</Typography>
       </CardContent>
