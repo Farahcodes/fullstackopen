@@ -1,19 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import {
-  Container,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
-import MaleIcon from '@mui/icons-material/Male';
-import FemaleIcon from '@mui/icons-material/Female';
+import { Container, Typography } from "@mui/material";
 
 import { apiBaseUrl } from "../../constants";
 import { Patient, Diagnosis } from "../../types";
 import EntryDetails from "../EntryDetails";
+import PatientInfo from "../PatientInfo";
+import NewEntryForm from "../NewEntryForm";
 
 const PatientDetailsPage = () => {
   const { id } = useParams<{ id: string }>(); // Extract patient ID from URL
@@ -47,36 +41,25 @@ const PatientDetailsPage = () => {
     void fetchDiagnoses();
   }, [id]);
 
+  const handleEntryAdded = (updatedPatient: Patient) => {
+    setPatient(updatedPatient);
+  };
+
   if (!patient) {
     return <div>Loading patient details...</div>;
   }
 
   return (
     <Container>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h4">{patient.name}</Typography>
-        {patient.gender === "male" ? (
-          <MaleIcon />
-        ) : (
-          <FemaleIcon />
-        )}
-      </div>
-      <List>
-        <ListItem>
-          <ListItemText primary="SSN" secondary={patient.ssn} />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Occupation" secondary={patient.occupation} />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Gender" secondary={patient.gender} />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Date of Birth" secondary={patient.dateOfBirth} />
-        </ListItem>
-      </List>
+      {/* Display patient info */}
+      <PatientInfo patient={patient} />
+
+      {/* Render the form ONCE to add a new entry */}
+      <NewEntryForm patientId={id!} onEntryAdded={handleEntryAdded} />
+
+      {/* Display the existing entries */}
       <Typography variant="h5">Entries:</Typography>
-      {patient.entries.map(entry => (
+      {patient.entries?.map(entry => (
         <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
       ))}
     </Container>

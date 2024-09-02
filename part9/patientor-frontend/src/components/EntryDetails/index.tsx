@@ -1,21 +1,16 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
+import { Card, CardContent, Typography, Divider, List, ListItem, ListItemText } from "@mui/material";
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import WorkIcon from '@mui/icons-material/Work';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-
-// types
 import { Entry, Diagnosis, HealthCheckRating } from "../../types";
 
-const EntryDetails: React.FC<{ entry: Entry; diagnoses: Record<string, Diagnosis> }> = ({ entry, diagnoses }) => {
+interface EntryDetailsProps {
+  entry: Entry;
+  diagnoses: Record<string, Diagnosis>;
+}
+
+const EntryDetails: React.FC<EntryDetailsProps> = ({ entry, diagnoses }) => {
   const renderDiagnosisCodes = (diagnosisCodes: string[] | undefined) => {
     if (!diagnosisCodes) return null;
     return (
@@ -98,7 +93,6 @@ const EntryDetails: React.FC<{ entry: Entry; diagnoses: Record<string, Diagnosis
         </Card>
       );
     default:
-      // Exhaustive type checking
       return assertNever(entry);
   }
 };
