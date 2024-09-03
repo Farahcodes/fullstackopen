@@ -1,21 +1,19 @@
 import { useState } from "react";
-import { TextField, Button, Alert, Typography, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material";
+import { TextField, Button, Alert, Typography, MenuItem, Select, FormControl, InputLabel, OutlinedInput, Checkbox, ListItemText } from "@mui/material";
 import axios from "axios";
-
-  // types
-import { NewHealthCheckEntry, HealthCheckRating, Patient, NewEntry, NewHospitalEntry, NewOccupationalHealthcareEntry } from "../../types";
-// constants
+import { SelectChangeEvent } from "@mui/material";
+import { NewHealthCheckEntry, HealthCheckRating, Patient, NewEntry, NewHospitalEntry, NewOccupationalHealthcareEntry, Diagnosis } from "../../types";
 import { apiBaseUrl } from "../../constants";
 
 interface NewEntryFormProps {
   patientId: string;
   onEntryAdded: (patient: Patient) => void;
+  diagnoses: Diagnosis[];  // Passing diagnoses as props
 }
 
 type EntryType = "HealthCheck" | "Hospital" | "OccupationalHealthcare";
 
-const NewEntryForm: React.FC<NewEntryFormProps> = ({ patientId, onEntryAdded }) => {
+const NewEntryForm: React.FC<NewEntryFormProps> = ({ patientId, onEntryAdded, diagnoses }) => {
   const [entryType, setEntryType] = useState<EntryType>("HealthCheck");
   const [newEntry, setNewEntry] = useState<NewEntry>({
     type: "HealthCheck",
@@ -31,12 +29,17 @@ const NewEntryForm: React.FC<NewEntryFormProps> = ({ patientId, onEntryAdded }) 
     setNewEntry({ ...newEntry, [field]: event.target.value });
   };
 
+  const handleDiagnosisChange = (event: SelectChangeEvent<string[]>) => {
+    const {
+      target: { value },
+    } = event;
+    setNewEntry({ ...newEntry, diagnosisCodes: typeof value === 'string' ? value.split(',') : value });
+  };
 
   const handleEntryTypeChange = (event: SelectChangeEvent<EntryType>) => {
     const selectedType = event.target.value as EntryType;
     setEntryType(selectedType);
 
-    // Reset the entry form based on the selected type
     switch (selectedType) {
       case "HealthCheck":
         setNewEntry({
@@ -106,15 +109,21 @@ const NewEntryForm: React.FC<NewEntryFormProps> = ({ patientId, onEntryAdded }) 
     switch (entryType) {
       case "HealthCheck":
         return (
-          <TextField
-            label="Healthcheck rating"
-            value={(newEntry as NewHealthCheckEntry).healthCheckRating || ""}
-            onChange={handleInputChange("healthCheckRating")}
-            fullWidth
-            margin="normal"
-            type="number"
-            inputProps={{ min: 0, max: 4 }}
-          />
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Healthcheck Rating</InputLabel>
+            <Select
+              value={(newEntry as NewHealthCheckEntry).healthCheckRating.toString()}
+              onChange={(event) =>
+                setNewEntry({ ...newEntry, healthCheckRating: parseInt(event.target.value) as HealthCheckRating } as NewHealthCheckEntry)
+              }
+              label="Healthcheck Rating"
+            >
+              <MenuItem value={HealthCheckRating.Healthy}>Healthy</MenuItem>
+              <MenuItem value={HealthCheckRating.LowRisk}>Low Risk</MenuItem>
+              <MenuItem value={HealthCheckRating.HighRisk}>High Risk</MenuItem>
+              <MenuItem value={HealthCheckRating.CriticalRisk}>Critical Risk</MenuItem>
+            </Select>
+          </FormControl>
         );
       case "Hospital":
         return (
@@ -216,15 +225,23 @@ const NewEntryForm: React.FC<NewEntryFormProps> = ({ patientId, onEntryAdded }) 
           fullWidth
           margin="normal"
         />
-        <TextField
-          label="Diagnosis codes"
-          value={newEntry.diagnosisCodes?.join(", ") || ""}
-          onChange={(event) =>
-            setNewEntry({ ...newEntry, diagnosisCodes: event.target.value.split(",").map((code) => code.trim()) })
-          }
-          fullWidth
-          margin="normal"
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Diagnosis Codes</InputLabel>
+          <Select
+            multiple
+            value={newEntry.diagnosisCodes || []}
+            onChange={handleDiagnosisChange}
+            input={<OutlinedInput label="Diagnosis Codes" />}
+            renderValue={(selected) => (selected as string[]).join(', ')}
+          >
+            {diagnoses.map((diagnosis) => (
+              <MenuItem key={diagnosis.code} value={diagnosis.code}>
+                <Checkbox checked={newEntry.diagnosisCodes?.includes(diagnosis.code) || false} />
+                <ListItemText primary={diagnosis.name} secondary={diagnosis.code} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         {renderAdditionalFields()}
         <Button type="submit" variant="contained" color="primary">
           Add

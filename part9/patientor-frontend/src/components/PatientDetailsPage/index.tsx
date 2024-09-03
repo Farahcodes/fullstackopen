@@ -55,7 +55,7 @@ const PatientDetailsPage = () => {
       <PatientInfo patient={patient} />
 
       {/* Render the form ONCE to add a new entry */}
-      <NewEntryForm patientId={id!} onEntryAdded={handleEntryAdded} />
+      <NewEntryForm patientId={id!} onEntryAdded={handleEntryAdded} diagnoses={Object.values(diagnoses)}  />
 
       {/* Display the existing entries */}
       <Typography variant="h5">Entries:</Typography>
