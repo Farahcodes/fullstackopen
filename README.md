@@ -139,6 +139,21 @@ Projects:
 
 * [Library Front End](https://github.com/Farahcodes/fullstackopen/tree/master/part8/library-frontend) / [Library Back End](https://github.com/Farahcodes/fullstackopen/tree/master/part8/%20library-backend) - A full-stack application that offers comprehensive book and author information, enabling users to add new books to the database. It leverages Apollo Server on the backend to manage GraphQL queries and Apollo Client on the frontend for sending queries and caching results. The app utilizes subscriptions to keep the frontend in sync with updates from the MongoDB database.
 
+### Part 9 - [TypeScript](https://fullstackopen.com/en/part9)
+
+Topics:
+
+* TypeScript
+* Formik
+* Yup
+* Semantic UI React
+
+Projects:
+
+* **[BMI](https://github.com/Farahcodes/fullstackopen/tree/master/part9/bmi)** - A simple Express-based back end that showcases the power of TypeScript by providing basic BMI and exercise calculators.
+* **[Course Info TypeScript](https://github.com/Farahcodes/fullstackopen/tree/master/part9/9.14-9.16/vite-with-typescript)** - An extension of the Course Info app from Part 1, rewritten to demonstrate the use of TypeScript in a React environment.
+* **[Patientor Front End](https://github.com/Farahcodes/fullstackopen/tree/master/part9/patientor-frontend)** / **[Patientor Back End](https://github.com/Farahcodes/fullstackopen/tree/master/part9/patientor-backend)** - A full-featured medical records application that allows for the viewing and updating of patient details. Both the front end and back end are implemented using TypeScript to manage the diverse data types associated with medical records. The back end is RESTful, with endpoints for fetching and updating patient records, while the front end is enhanced to display patient information. Form management is handled with Formik and Yup, ensuring a robust and maintainable structure for adding medical entries. The UI is built using Material UI React for a clean, modern look.
+
 
 
 
