@@ -2,6 +2,8 @@
 
 This repository includes my projects and solutions for the [Full Stack Open course](https://fullstackopen.com/en/) from the prestigious University of Helsinki.
 
+Parts 0 through 9 are located within this repository, while Parts 10 through 13 can be found in separate repositories (links are provided in the corresponding sections below).
+
 This comprehensive course is known for its exceptional quality and rigorous curriculum, covering essential web development skills and modern technologies such as:
 * React
 * Redux
