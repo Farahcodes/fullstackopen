@@ -165,7 +165,17 @@ Topics:
 
 Projects:
 
-* **[Rate Repository App](#)** - A React Native frontend built for an existing GraphQL back end. The app allows users to browse a list of GitHub repositories, which can be filtered, sorted, and scrolled infinitely. Signed-in users can submit reviews for any public GitHub repository, view the repositories they have reviewed, and delete their own reviews. Form handling and validation are efficiently managed using Formik and Yup.
+* **[Rate Repository App](https://github.com/Farahcodes/full-stack-open-part10)** - A React Native frontend built for an existing GraphQL back end. The app allows users to browse a list of GitHub repositories, which can be filtered, sorted, and scrolled infinitely. Signed-in users can submit reviews for any public GitHub repository, view the repositories they have reviewed, and delete their own reviews. Form handling and validation are efficiently managed using Formik and Yup.
+
+### Part 11 - [CI/CD](https://fullstackopen.com/en/part11)
+
+Topics:
+
+* Continuous Integration and Continuous Deployment (CI/CD) using GitHub Actions
+
+Projects:
+
+* **[CI/CD Pipeline for Pokedex App](https://github.com/Farahcodes/full-stack-open-pokedex-init)** - Developed a comprehensive CI/CD pipeline utilizing GitHub Actions for a pre-built Pokedex application. The pipeline encompasses linting, building, unit testing, end-to-end testing, deployment, version tagging, and Slack notifications.
 
 
 
